@@ -6,12 +6,12 @@ class User < ApplicationRecord
     validates :phone_number,:presence => true, numericality: true, length: { :minimum => 10, :maximum => 15 }
     validates :password, length: {in: 3..30, :on =>:create}
 
-    has_many :contacts, dependant: :destroy
-    has_many :interactions, dependant: :destroy
-    has_many :notes, dependant: :destroy
-    has_many :reminders, dependant: :destroy
-    has_many :important_dates, dependant: :destroy
-    has_many :tags, dependant: :destroy
-    has_many :important_dates, dependant: :destroy
+    has_many :contacts, dependent: :destroy
+    has_many :interactions, dependent: :destroy
+    has_many :notes, dependent: :destroy
+    has_many :reminders, dependent: :destroy
+    has_many :important_dates, dependent: :destroy
+    has_many :tags, dependent: :destroy
+    has_many :important_dates, dependent: :destroy
 
 end
