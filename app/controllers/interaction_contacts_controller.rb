@@ -1,0 +1,2 @@
+class InteractionContactsController < ApplicationController
+end

@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  relationship: MyString
+  company: MyString
+  industry: MyString
+  last_interaction: 2023-09-21 14:18:12
+  follow_up_cadence: 1
+
+two:
+  user_id: 1
+  relationship: MyString
+  company: MyString
+  industry: MyString
+  last_interaction: 2023-09-21 14:18:12
+  follow_up_cadence: 1

@@ -1,0 +1,2 @@
+class ContactSocialsController < ApplicationController
+end
