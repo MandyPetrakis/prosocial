@@ -1,14 +1,14 @@
-import { useState } from 'react'
+import NavBar from "./Components/NavBar";
+import Dashboard from "./Pages/Dashboard";
+import { Outlet } from "react-router-dom";
 
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-    Hello world
-    </>
-  )
+  <div className="font-quicksand p-10">
+  <NavBar/>
+  <Outlet/>
+  </div>)
 }
 
-export default App
+export default App;
