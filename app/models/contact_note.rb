@@ -1,4 +1,4 @@
-class Note < ApplicationRecord
+class ContactNote < ApplicationRecord
     validates :user_id, :contact_id, :body, presence: true 
  
     belongs_to :user

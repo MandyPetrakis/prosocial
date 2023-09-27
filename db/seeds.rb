@@ -4,7 +4,7 @@ require "date"
 
 User.create(
     email: "test@email.com", 
-    password_digest: "user", 
+    password: "user", 
     company: "test company", 
     address: "123 Street st, San Francisco CA, 94108", 
     phone_number: "123-123-1234", 
@@ -33,18 +33,19 @@ social_type = ["instagram", "linkedIn", "twitter", "facebook"]
             from: 1, 
             to: 30),
         url: Faker::Internet.url,
-        type: social_type.sample
+        social_type: social_type.sample,
     )
 end
             
 50.times do
     ContactsBridge.create(
-        contact_id: Faker::Number.between(
+        contact_id1: Faker::Number.between(
                     from: 1, 
-                    to: 15), 
+                    to: 15).to_i, 
         contact_id2: Faker::Number.between(
                     from: 16, 
-                    to: 30))
+                    to: 30).to_i
+    )
 end
                         
 tag_type = ["interest", "work", "location", "education"]
@@ -53,7 +54,7 @@ tag_type = ["interest", "work", "location", "education"]
     Tag.create(
         user_id: 1,
         description: Faker::Hipster.word,
-        type: tag_type.sample)
+        tag_type: tag_type.sample)
 end
                         
 90.times do
@@ -75,7 +76,7 @@ date_type = ["birthday", "anniversary", "gotcha day"]
             from: 1, 
             to: 30),
         user_id: 1,
-        type: date_type.sample,
+        important_date_type: date_type.sample,
         date: Faker::Date.between(from: '2014-09-23', to: '2023-09-25')
         )
 end
@@ -88,6 +89,8 @@ end
             to: 30),
         pinned: Faker::Boolean.boolean,
         header: "note header",
+        body: Faker::Lorem.words(number: 40),
+        prompt: "prompt"
     )
 end
 
@@ -96,7 +99,7 @@ interaction_type = ["event", "meeting", "passing"]
 
 100.times do 
     Interaction.create(
-        type: ineraction_type.sample,
+        interaction_type: interaction_type.sample,
         user_id: 1,
         contact_id: Faker::Number.between(
             from: 1, 
@@ -143,7 +146,7 @@ phone_number_type = ["cell", "work", "home"]
             from: 1, 
             to: 30),
         phone_number: Faker::PhoneNumber.phone_number,
-        type: phone_number_type.sample
+        phone_number_type: phone_number_type.sample
     )
 end
 

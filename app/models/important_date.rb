@@ -1,5 +1,5 @@
 class ImportantDate < ApplicationRecord
-    validates :user_id, :type, :date, presence: true
+    validates :user_id, :important_date_type, :date, presence: true
 
     belongs_to :user
     belongs_to :contact 

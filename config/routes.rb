@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :contacts_bridges
   resources :interaction_contacts
   resources :interactions
-  resources :notes
+  resources :contact_notes
   resources :important_dates
   resources :contacts_tags
   resources :tags

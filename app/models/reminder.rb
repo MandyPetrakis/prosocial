@@ -3,5 +3,5 @@ class Reminder < ApplicationRecord
 
     belongs_to :user
     belongs_to :contact 
-    belong_to :important_date
+    belongs_to :important_date
 end
