@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :contact_phone_numbers
   resources :reminders
   resources :contact_socials
   resources :contacts_bridges
