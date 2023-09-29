@@ -2,6 +2,10 @@
 export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    inset: {
+      28: "28px",
+      13: "13px",
+    },
     extend: {
       fontFamily: {
         quicksand: ['"Quicksand"'],
