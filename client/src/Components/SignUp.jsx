@@ -30,7 +30,7 @@ export default function SignUp({ setIsReturningUser }) {
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
         />
-        <label for="firstName" className={labelStyle}>
+        <label htmlFor="firstName" className={labelStyle}>
           First Name
         </label>
       </div>
@@ -43,7 +43,7 @@ export default function SignUp({ setIsReturningUser }) {
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
         />
-        <label for="lastName" className={labelStyle}>
+        <label htmlFor="lastName" className={labelStyle}>
           Last Name
         </label>
       </div>
@@ -56,7 +56,7 @@ export default function SignUp({ setIsReturningUser }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <label for="email" className={labelStyle}>
+        <label htmlFor="email" className={labelStyle}>
           Email
         </label>
       </div>
@@ -69,7 +69,7 @@ export default function SignUp({ setIsReturningUser }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <label for="password" className={labelStyle}>
+        <label htmlFor="password" className={labelStyle}>
           Password
         </label>
       </div>
@@ -82,7 +82,7 @@ export default function SignUp({ setIsReturningUser }) {
           value={passwordConfirmation}
           onChange={(e) => setPasswordConfirmation(e.target.value)}
         />
-        <label for="passwordConfirmaton" className={labelStyle}>
+        <label htmlFor="passwordConfirmaton" className={labelStyle}>
           Confirm Password
         </label>
       </div>

@@ -5,10 +5,10 @@ import Contacts from "./Pages/Contacts.jsx";
 import Reminders from "./Pages/Reminders.jsx";
 import Reports from "./Pages/Reports.jsx";
 import Account from "./Pages/Account.jsx";
-import Authentication from "./Pages/Authentication.jsx";
 import "./index.css";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createBrowserRouter([
   {
@@ -39,10 +39,14 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
+
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>
 );

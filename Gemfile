@@ -7,6 +7,8 @@ gem 'bcrypt', '~> 3.1.13'
 
 gem "rails", "~> 7.0.7", ">= 7.0.7.2"
 
+gem 'rack-cors'
+
 gem 'pg'
 
 gem "puma", "~> 5.0"

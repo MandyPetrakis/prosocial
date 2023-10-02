@@ -1,11 +1,8 @@
 import { create } from "zustand";
 
-const useUser = create((set) => {
+export const useCurrentUser = create((set) => {
   return {
-    user: {}
-    isUserValid: false,
-    setIsUserValid: (validity) => set({ isUserValid: validity }),
+    user: {},
+    setUser: (user) => set({ user: user }),
   };
 });
-
-export default useUser;

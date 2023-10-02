@@ -37,16 +37,16 @@ social_type = ["instagram", "linkedIn", "twitter", "facebook"]
     )
 end
             
-50.times do
-    ContactsBridge.create(
-        contact_id1: Faker::Number.between(
-                    from: 1, 
-                    to: 15).to_i, 
-        contact_id2: Faker::Number.between(
-                    from: 16, 
-                    to: 30).to_i
-    )
-end
+# 50.times do
+#     ContactsBridge.create(
+#         contact_id1: Faker::Number.between(
+#                     from: 1, 
+#                     to: 15).to_i, 
+#         contact_id2: Faker::Number.between(
+#                     from: 16, 
+#                     to: 30).to_i
+#     )
+# end
                         
 tag_type = ["interest", "work", "location", "education"]
                         
@@ -68,75 +68,75 @@ end
     )
 end
 
-date_type = ["birthday", "anniversary", "gotcha day"]
+# date_type = ["birthday", "anniversary", "gotcha day"]
 
-50.times do 
-    ImportantDate.create(
-        contact_id: Faker::Number.between(
-            from: 1, 
-            to: 30),
-        user_id: 1,
-        important_date_type: date_type.sample,
-        date: Faker::Date.between(from: '2014-09-23', to: '2023-09-25')
-        )
-end
+# 50.times do 
+#     ImportantDate.create(
+#         contact_id: Faker::Number.between(
+#             from: 1, 
+#             to: 30),
+#         user_id: 1,
+#         important_date_type: date_type.sample,
+#         date: Faker::Date.between(from: '2014-09-23', to: '2023-09-25')
+#         )
+# end
 
-100.times do 
-    ContactNote.create(
-        user_id: 1, 
-        contact_id: Faker::Number.between(
-            from: 1, 
-            to: 30),
-        pinned: Faker::Boolean.boolean,
-        header: "note header",
-        body: Faker::Lorem.words(number: 40),
-        prompt: "prompt"
-    )
-end
+# 100.times do 
+#     ContactNote.create(
+#         user_id: 1, 
+#         contact_id: Faker::Number.between(
+#             from: 1, 
+#             to: 30),
+#         pinned: Faker::Boolean.boolean,
+#         header: "note header",
+#         body: Faker::Lorem.words(number: 40),
+    
+#     )
+# end
 
-interaction_type = ["event", "meeting", "passing"]
+# interaction_type = ["event", "meeting", "passing"]
 
 
-100.times do 
-    Interaction.create(
-        interaction_type: interaction_type.sample,
-        user_id: 1,
-        contact_id: Faker::Number.between(
-            from: 1, 
-            to: 30),
-         date: Faker::Date.between(from: '2014-09-23', to: '2023-09-25'),
-         note: Faker::Lorem.words(number: 40),
-    )
-end
+# 100.times do 
+#     Interaction.create(
+#         interaction_type: interaction_type.sample,
+#         user_id: 1,
+#         contact_id: Faker::Number.between(
+#             from: 1, 
+#             to: 30),
+#          date: Faker::Date.between(from: '2014-09-23', to: '2023-09-25'),
+#          note: Faker::Lorem.words(number: 40),
+#     )
+# end
 
-100.times do 
-    InteractionContact.create(
-        contact_id: Faker::Number.between(
-            from: 1, 
-            to: 30),
-        interaction_id: Faker::Number.between(
-            from: 1, 
-            to: 100),
-         )
-end
+# 100.times do 
+#     InteractionContact.create(
+#         contact_id: Faker::Number.between(
+#             from: 1, 
+#             to: 30),
+#         interaction_id: Faker::Number.between(
+#             from: 1, 
+#             to: 100),
+#          )
+# end
 
-50.times do 
-    Reminder.create(
-        user_id: 1,
-        contact_id: Faker::Number.between(
-            from: 1, 
-            to: 30),
-        description: "Reach out to person",
-        due_date: Faker::Date.between(from: '2023-09-27', to: '2024-09-25'),
-        important_date_id: Faker::Number.between(
-            from: 1, 
-            to: 50),
-        recurring: Faker::Boolean.boolean,
-        recurring_cadence: Faker::Number.between(
-            from: 1, 
-            to: 365),
-    )
-end
+# 50.times do 
+#     Reminder.create(
+#         user_id: 1,
+#         contact_id: Faker::Number.between(
+#             from: 1, 
+#             to: 30),
+#         description: "Reach out to person",
+#         due_date: Faker::Date.between(from: '2023-09-27', to: '2024-09-25'),
+#         important_date_id: Faker::Number.between(
+#             from: 1, 
+#             to: 50),
+#         recurring: Faker::Boolean.boolean,
+#         recurring_cadence: Faker::Number.between(
+#             from: 1, 
+#             to: 365),
+#     )
+# end
 
 phone_number_type = ["cell", "work", "home"]
 

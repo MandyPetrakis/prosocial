@@ -25,7 +25,7 @@ export default function LogIn({ setIsReturningUser }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <label for="email" className={labelStyle}>
+        <label htmlFor="email" className={labelStyle}>
           Email
         </label>
       </div>
@@ -38,7 +38,7 @@ export default function LogIn({ setIsReturningUser }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <label for="password" className={labelStyle}>
+        <label htmlFor="password" className={labelStyle}>
           Password
         </label>
       </div>
