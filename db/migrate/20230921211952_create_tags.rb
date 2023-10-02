@@ -3,7 +3,7 @@ class CreateTags < ActiveRecord::Migration[7.0]
     create_table :tags do |t|
       t.integer :user_id
       t.string :description
-      t.string :type
+      t.string :tag_type
 
       t.timestamps
     end

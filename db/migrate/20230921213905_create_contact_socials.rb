@@ -3,7 +3,7 @@ class CreateContactSocials < ActiveRecord::Migration[7.0]
     create_table :contact_socials do |t|
       t.integer :contact_id
       t.string :url
-      t.string :type
+      t.string :social_type
 
       t.timestamps
     end

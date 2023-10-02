@@ -7,6 +7,7 @@ class CreateContacts < ActiveRecord::Migration[7.0]
       t.string :industry
       t.datetime :last_interaction
       t.integer :follow_up_cadence
+      t.string :email
 
       t.timestamps
     end
