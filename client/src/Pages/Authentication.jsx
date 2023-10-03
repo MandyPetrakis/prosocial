@@ -2,7 +2,7 @@ import LogIn from "../Components/LogIn";
 import SignUp from "../Components/SignUp.Jsx";
 import { useState } from "react";
 
-export default function Authentication() {
+export default function Authentication({ setIsUserValid }) {
   const [isReturningUser, setIsReturningUser] = useState(false);
 
   const logo = (
@@ -16,7 +16,10 @@ export default function Authentication() {
       {logo}
       <div className="grid place-items-center">
         {isReturningUser ? (
-          <LogIn setIsReturningUser={setIsReturningUser} />
+          <LogIn
+            setIsReturningUser={setIsReturningUser}
+            setIsUserValid={setIsUserValid}
+          />
         ) : (
           <SignUp setIsReturningUser={setIsReturningUser} />
         )}

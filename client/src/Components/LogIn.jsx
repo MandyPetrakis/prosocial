@@ -1,8 +1,29 @@
 import { useState } from "react";
+import api from "../Api/api";
+import { useCurrentUser } from "../Store/userStore";
 
-export default function LogIn({ setIsReturningUser }) {
+export default function LogIn({ setIsReturningUser, setIsUserValid }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState();
+  const setUser = useCurrentUser((state) => state.setUser);
+
+  function handleLogIn(e) {
+    e.preventDefault();
+    console.log("clicked");
+
+    api
+      .post("/login", { email: email, password: password })
+      .then(function (response) {
+        setEmail("");
+        setPassword("");
+        setUser(response.data);
+        setIsUserValid(true);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   const header = (
     <h2 className="text-lg font-medium mb-5">Welcome back to your network.</h2>
@@ -15,7 +36,7 @@ export default function LogIn({ setIsReturningUser }) {
     "block absolute pointer-events-none top-[0] left-[0] peer-placeholder-shown:top-28  peer-placeholder-shown:left-13 peer-placeholder-shown:opacity-0 peer-focus:opacity-100 peer-focus:top-[0] peer-focus:left-[0] [transition:top_0.25s_ease-in-out,_left_0.25s_ease-in-out,_opacity_0.25s_ease-in-out]";
 
   const logInForm = (
-    <form className="grid place-items-center">
+    <form onSubmit={handleLogIn} className="grid place-items-center">
       <div className={fieldStyle}>
         <input
           type="text"
@@ -44,7 +65,7 @@ export default function LogIn({ setIsReturningUser }) {
       </div>
       <div
         className="cursor-pointer rounded-md mt-4 shadow-md bg-darkBlue text-white px-2 py-1 w-1/3 text-center font-semibold hover:shadow-lg hover:bg-gradient-to-r from-purple to-darkBlue"
-        type="submit"
+        onClick={(e) => handleLogIn(e)}
       >
         Submit
       </div>

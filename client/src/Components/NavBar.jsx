@@ -11,14 +11,6 @@ export default function NavBar() {
           className={(navData) =>
             navData.isActive ? activeStyle : inactiveStyle
           }
-          to="/dashboard"
-        >
-          Dashboard
-        </NavLink>
-        <NavLink
-          className={(navData) =>
-            navData.isActive ? activeStyle : inactiveStyle
-          }
           to="/Contacts"
         >
           Contacts
@@ -27,21 +19,13 @@ export default function NavBar() {
           className={(navData) =>
             navData.isActive ? activeStyle : inactiveStyle
           }
-          to="/reminders"
+          to="/groups"
         >
-          Reminders
+          Groups
         </NavLink>
-        <NavLink
-          className={(navData) =>
-            navData.isActive ? activeStyle : inactiveStyle
-          }
-          to="/reports"
-        >
-          Reports
-        </NavLink>
-      </div>
-      <div className="absolute bg-purple h-10 w-10 p-2 rounded-full text-center top-8 right-5">
-        <NavLink to="/account">AP</NavLink>
+        <div className="bg-purple h-10 w-10 p-2 rounded-full text-center">
+          <NavLink to="/account">AP</NavLink>
+        </div>
       </div>
     </div>
   );

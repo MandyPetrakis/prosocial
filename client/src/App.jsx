@@ -4,22 +4,27 @@ import Authentication from "./Pages/Authentication";
 import { useCurrentUser } from "./Store/userStore";
 import { useEffect, useState } from "react";
 import api from "./Api/api";
+import { CurrentUser } from "./Api/users";
 
 function App() {
   const setUser = useCurrentUser((state) => state.setUser);
   const [isUserValid, setIsUserValid] = useState(false);
 
-  const getCurrentUser = async () => {
-    try {
-      const response = await api.get("/me");
-      setUser(response.data);
-      setIsUserValid(true);
-    } catch (err) {}
-  };
+  // const getCurrentUser = async () => {
+  //   try {
+  //     const response = await api.get("/me");
+  //     setUser(response.data);
+  //     setIsUserValid(true);
+  //   } catch (err) {}
+  // };
 
-  useEffect(() => {
-    getCurrentUser();
-  }, []);
+  // useEffect(() => {
+  //   const { data } = CurrentUser();
+  //   if (data) {
+  //     setUser(data);
+  //     setIsUserValid(true);
+  //   }
+  // }, []);
 
   return (
     <div className="font-quicksand p-10 bg-grey min-h-screen text-blue-900">
@@ -29,7 +34,7 @@ function App() {
           <Outlet />
         </>
       ) : (
-        <Authentication />
+        <Authentication setIsUserValid={setIsUserValid} />
       )}
     </div>
   );

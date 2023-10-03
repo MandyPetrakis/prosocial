@@ -7,5 +7,7 @@ Rails.application.routes.draw do
   resources :users
 
   get "/me", to: "users#logged_in"
+  post '/login', to: 'sessions#create'
+
 
 end
