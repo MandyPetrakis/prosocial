@@ -1,28 +1,39 @@
 import { useState } from "react";
-import api from "../Api/api";
 import { useCurrentUser } from "../Store/userStore";
+import { useRequestProcessor } from "../requestProcessor";
 
-export default function LogIn({ setIsReturningUser, setIsUserValid }) {
+export default function LogIn({ setIsReturningUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState();
+  const { mutate } = useRequestProcessor();
   const setUser = useCurrentUser((state) => state.setUser);
+
+  const currentUserMutation = mutate(["currentUser"], () => {
+    const user = { email: email, password: password };
+
+    const response = fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (!response.ok) {
+      throw new Error("Unauthorized");
+    }
+    return response.json();
+  });
 
   function handleLogIn(e) {
     e.preventDefault();
-    console.log("clicked");
-
-    api
-      .post("/login", { email: email, password: password })
-      .then(function (response) {
-        setEmail("");
-        setPassword("");
-        setUser(response.data);
-        setIsUserValid(true);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    currentUserMutation.mutate();
+    if (currentUserMutation.isSuccess) {
+      setEmail("");
+      setPassword("");
+      setUser(currentUserMutation.data);
+    }
   }
 
   const header = (
@@ -65,7 +76,7 @@ export default function LogIn({ setIsReturningUser, setIsUserValid }) {
       </div>
       <div
         className="cursor-pointer rounded-md mt-4 shadow-md bg-darkBlue text-white px-2 py-1 w-1/3 text-center font-semibold hover:shadow-lg hover:bg-gradient-to-r from-purple to-darkBlue"
-        onClick={(e) => handleLogIn(e)}
+        onClick={handleLogIn}
       >
         Submit
       </div>
@@ -84,7 +95,7 @@ export default function LogIn({ setIsReturningUser, setIsUserValid }) {
   return (
     <>
       {header}
-      <div className="bg-indigo-50 shadow-lg flex place-content-center w-fit px-10 pt-5 pb-10 rounded-md mb-10">
+      <div className="bg-grey shadow-lg flex place-content-center w-fit px-10 pt-5 pb-10 rounded-md mb-10">
         {logInForm}
       </div>
       {signUp}

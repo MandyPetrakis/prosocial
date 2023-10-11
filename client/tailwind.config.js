@@ -12,7 +12,8 @@ export default {
       },
       colors: {
         transparent: "transparent",
-        grey: "#DFE3F5",
+        grey: "#F3F4FA",
+        background: "#EAEBF0",
         darkBlue: "#5680E9",
         teal: "#84CEEB",
         lightBlue: "5AB9EA",

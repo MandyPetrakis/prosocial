@@ -3,39 +3,42 @@ import { Outlet } from "react-router-dom";
 import Authentication from "./Pages/Authentication";
 import { useCurrentUser } from "./Store/userStore";
 import { useEffect, useState } from "react";
-import api from "./Api/api";
-import { CurrentUser } from "./Api/users";
+import { useRequestProcessor } from "./requestProcessor";
 
 function App() {
   const setUser = useCurrentUser((state) => state.setUser);
-  const [isUserValid, setIsUserValid] = useState(false);
+  const { query } = useRequestProcessor();
 
-  // const getCurrentUser = async () => {
-  //   try {
-  //     const response = await api.get("/me");
-  //     setUser(response.data);
-  //     setIsUserValid(true);
-  //   } catch (err) {}
-  // };
+  const currentUserQuery = query(
+    ["currentUser"],
+    async () => {
+      const response = await fetch("/api/me");
+      if (!response.ok) {
+        throw new Error("Unauthorized");
+      }
+      return response.json();
+    },
+    { retry: false }
+  );
 
-  // useEffect(() => {
-  //   const { data } = CurrentUser();
-  //   if (data) {
-  //     setUser(data);
-  //     setIsUserValid(true);
-  //   }
-  // }, []);
+  if (currentUserQuery.isSuccess) {
+    setUser(currentUserQuery.data);
+  }
+
+  if (currentUserQuery.isLoading || currentUserQuery.isError) {
+    return (
+      <div className="font-quicksand p-10 bg-background min-h-screen text-blue-900">
+        <Authentication />
+      </div>
+    );
+  }
 
   return (
-    <div className="font-quicksand p-10 bg-grey min-h-screen text-blue-900">
-      {isUserValid ? (
-        <>
-          <NavBar />
-          <Outlet />
-        </>
-      ) : (
-        <Authentication setIsUserValid={setIsUserValid} />
-      )}
+    <div className="font-quicksand p-10 bg-background min-h-screen text-blue-900">
+      <>
+        <NavBar />
+        <Outlet />
+      </>
     </div>
   );
 }

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useCurrentUser } from "../Store/userStore";
+import { useRequestProcessor } from "../requestProcessor";
 
 export default function SignUp({ setIsReturningUser }) {
   const [firstName, setFirstName] = useState("");
@@ -6,6 +8,30 @@ export default function SignUp({ setIsReturningUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const setUser = useCurrentUser((state) => state.setUser);
+  const { mutate } = useRequestProcessor();
+
+  const signUpMutation = mutate(["currentUser"], async () => {
+    const user = {
+      email: email,
+      password: password,
+      password_confirmation: passwordConfirmation,
+      first_name: firstName,
+      last_name: lastName,
+    };
+
+    const response = await fetch("/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    if (!response.ok) {
+      throw new Error("Unauthorized");
+    }
+    return response.json();
+  });
 
   const header = (
     <h2 className="text-lg font-medium mb-5">
@@ -88,12 +114,25 @@ export default function SignUp({ setIsReturningUser }) {
       </div>
       <div
         className="cursor-pointer rounded-md mt-4 shadow-md bg-darkBlue text-white px-2 py-1 w-1/3 text-center font-semibold hover:shadow-lg hover:bg-gradient-to-r from-purple to-darkBlue"
-        type="submit"
+        onClick={handleSignUp}
       >
         Submit
       </div>
     </form>
   );
+
+  function handleSignUp(e) {
+    e.preventDefault();
+    signUpMutation.mutate();
+    if (signUpMutation.isSuccess) {
+      setUser(signUpMutation.data);
+      setEmail("");
+      setPassword("");
+      setPasswordConfirmation("");
+      setLastName("");
+      setFirstName("");
+    }
+  }
 
   const logInInstead = (
     <div
@@ -107,7 +146,7 @@ export default function SignUp({ setIsReturningUser }) {
   return (
     <>
       {header}
-      <div className="bg-indigo-50 shadow-lg flex place-content-center w-fit px-10 pt-5 pb-10 rounded-md mb-10">
+      <div className="bg-grey shadow-lg flex place-content-center w-fit px-10 pt-5 pb-10 rounded-md mb-10">
         {signUpForm}
       </div>
       {logInInstead}

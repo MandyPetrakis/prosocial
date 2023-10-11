@@ -1,7 +1,6 @@
 require "date"
 
 
-
 User.create(
     email: "test@email.com", 
     password: "user", 

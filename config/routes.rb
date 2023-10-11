@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
   get "/me", to: "users#logged_in"
   post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+
 
 
 end
