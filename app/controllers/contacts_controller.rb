@@ -1,8 +1,14 @@
 class ContactsController < ApplicationController
   
 def index
-    contacts = Contact.all
-    render json: contacts
+    if session[:user_id]
+        user = User.find(session[:user_id])
+        contacts = user.contacts
+        render json: contacts
+    else   
+render json: [error: "Not Authorized"], status: :unauthorized 
+    end
+
 end
 
 def show

@@ -1,5 +1,5 @@
 class Contact < ApplicationRecord
-    validates :user_id, :relationship, :company, :industry, presence: true
+    validates :user_id, :relationship, presence: true
 
     belongs_to :user
     has_many :interaction_contacts, dependent: :destroy

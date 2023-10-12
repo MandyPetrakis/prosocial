@@ -1,30 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useCurrentUser } from "../Store/userStore";
+import { useRequestProcessor } from "../requestProcessor";
 
 export default function Contacts() {
-  const [query, setQuery] = useState("");
+  const { query } = useRequestProcessor();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentContact, setCurrentContact] = useState();
+  const contacts = useCurrentUser((state) => state.contacts);
+
+  const contactCards = contacts.map((c) => {
+    return (
+      <div
+        key={c.id}
+        className="cursor-pointer whitespace-nowrap border-teal border-2 rounded-md p-2 mb-2.5 min-w-fit"
+      >
+        {c.first_name + " " + c.last_name}
+      </div>
+    );
+  });
 
   const searchBar = (
     <input
       className="border-2 border-darkBlue bg-transparent rounded-md px-2 py-1 focus:outline-none"
       type="search"
-      value={query}
+      value={searchQuery}
       placeholder="search"
-      onChange={(e) => setQuery(e.target.value)}
+      onChange={(e) => setSearchQuery(e.target.value)}
     />
-  );
-
-  const contactList = (
-    <div className="m-2.5 w-1/4">
-      <div className="cursor-pointer border-teal border-2 rounded-md p-2 mb-2.5">
-        Amanda Petrakis
-      </div>
-      <div className="cursor-pointer border-teal border-2 rounded-md p-2 mb-2.5">
-        Amanda Petrakis
-      </div>{" "}
-      <div className="cursor-pointer border-teal border-2 rounded-md p-2 mb-2.5">
-        Amanda Petrakis
-      </div>
-    </div>
   );
 
   const currentContactDisplay = (
@@ -44,7 +46,7 @@ export default function Contacts() {
     <>
       {searchBar}
       <div className="flex">
-        {contactList}
+        <div className="m-2.5 w-1/4 min-w-fit">{contactCards}</div>
         {currentContactDisplay}
       </div>
     </>

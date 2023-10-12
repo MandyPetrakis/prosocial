@@ -15,6 +15,8 @@ relationship_type = ["friend", "colleague", "cousin", "sister", "brother", "neig
 30.times do
     Contact.create(
         user_id: 1,
+        first_name: Faker::Name.first_name,
+        last_name: Faker::Name.last_name,
         relationship: relationship_type.sample,
         company: Faker::Company.name,
         industry: Faker::Company.industry,
