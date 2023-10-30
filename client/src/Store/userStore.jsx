@@ -1,10 +1,8 @@
 import { create } from "zustand";
 
-export const useCurrentUser = create((set) => {
+export const useUser = create((set) => {
   return {
     user: {},
-    contacts: [],
-    setContacts: (contacts) => set({ contacts: contacts }),
     setUser: (user) => set({ user: user }),
   };
 });

@@ -1,9 +1,9 @@
 import { useRequestProcessor } from "../requestProcessor";
-import { useCurrentUser } from "../Store/userStore";
+import { useUser } from "../Store/userStore";
 
 export default function Account() {
   const { mutate } = useRequestProcessor();
-  const user = useCurrentUser((state) => state.user);
+  const user = useUser((state) => state.user);
 
   const logOutMutation = mutate(["currentUser"], async () => {
     const response = await fetch("/api/logout", {

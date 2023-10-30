@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useCurrentUser } from "../Store/userStore";
+import { useUser } from "../Store/userStore";
 import { useRequestProcessor } from "../requestProcessor";
 
 export default function SignUp({ setIsReturningUser }) {
@@ -8,7 +8,7 @@ export default function SignUp({ setIsReturningUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const setUser = useCurrentUser((state) => state.setUser);
+  const setUser = useUser((state) => state.setUser);
   const { mutate } = useRequestProcessor();
 
   const signUpMutation = mutate(["currentUser"], async () => {

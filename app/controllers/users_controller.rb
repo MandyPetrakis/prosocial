@@ -36,11 +36,12 @@ end
 def logged_in
     user = User.find_by(id: session[:user_id])
     if user
-        render json: user, status: :ok
+        render json: user, include: {contacts: {contacts_tags: :tags}}, status: :ok
     else 
         render json: {error: "Not authorized"}, status: :unauthorized
     end
 end
+
 
 private
 

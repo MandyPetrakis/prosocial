@@ -4,7 +4,7 @@ def index
     if session[:user_id]
         user = User.find(session[:user_id])
         contacts = user.contacts
-        render json: contacts
+        render json: contacts, include: :tags
     else   
 render json: [error: "Not Authorized"], status: :unauthorized 
     end
@@ -17,7 +17,8 @@ def show
 end
 
 def create 
-    contact = Contact.create!(contact_params)
+    user = User.find(session[:user_id])
+    contact = user.contacts.create!(contact_params)
     render json: contact, status: :created
 end
 
@@ -30,13 +31,14 @@ end
 def destroy 
     contact = Contact.find(params[:id])
     contact.destroy
-    head :no_content
+    contacts = User.find(session[:user_id]).contacts
+    render json:contacts
 end
 
 private 
 
 def contact_params
-    params.permit(:user_id, :relationship, :company, :industry, :last_interaction, :follow_up_cadence)
+    params.permit(:user_id, :relationship, :company, :industry, :last_interaction, :follow_up_cadence, :first_name, :last_name, :occupation, :email, :company, :occupation)
 end
 
 end

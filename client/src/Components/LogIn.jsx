@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { useCurrentUser } from "../Store/userStore";
+import { useUser } from "../Store/userStore";
+import { useContacts } from "../Store/contactsStore";
+
 import { useRequestProcessor } from "../requestProcessor";
 
 export default function LogIn({ setIsReturningUser }) {
@@ -7,7 +9,8 @@ export default function LogIn({ setIsReturningUser }) {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState();
   const { mutate } = useRequestProcessor();
-  const setUser = useCurrentUser((state) => state.setUser);
+  const setUser = useUser((state) => state.setUser);
+  const setContacts = useContacts((state) => state.setContacts);
 
   const currentUserMutation = mutate(["currentUser"], () => {
     const user = { email: email, password: password };

@@ -20,6 +20,7 @@ relationship_type = ["friend", "colleague", "cousin", "sister", "brother", "neig
         relationship: relationship_type.sample,
         company: Faker::Company.name,
         industry: Faker::Company.industry,
+        occupation: Faker::Job.position,
         last_interaction: Faker::Date.between(from: '2014-09-23', to: '2023-09-25'),
         email: Faker::Internet.email,
         follow_up_cadence: 14
@@ -48,16 +49,24 @@ end
 #                     to: 30).to_i
 #     )
 # end
-                        
-tag_type = ["interest", "work", "location", "education"]
-                        
-20.times do 
-    Tag.create(
-        user_id: 1,
-        description: Faker::Hipster.word,
-        tag_type: tag_type.sample)
-end
-                        
+                                            
+Tag.create(user_id: 1,description: "San Francisco", tag_type: "locations")
+Tag.create(user_id: 1, description: "New York", tag_type: "locations")
+Tag.create(user_id: 1, description: "Tech", tag_type: "work")
+Tag.create(user_id: 1, description: "Lifting", tag_type: "interests")
+Tag.create(user_id: 1, description: "Dog Park", tag_type: "locations")
+Tag.create(user_id: 1, description: "Movies", tag_type: "interests")
+Tag.create(user_id: 1, description: "Flatiron School", tag_type: "education")
+Tag.create(user_id: 1, description: "New York", tag_type: "locations")
+Tag.create(user_id: 1, description: "Games", tag_type: "interests")
+Tag.create(user_id: 1, description: "Restaurants", tag_type: "work")
+Tag.create(user_id: 1, description: "lululemon", tag_type: "work")
+Tag.create(user_id: 1, description: "Comedy", tag_type: "interests")
+Tag.create(user_id: 1, description: "Mentors", tag_type: "work")
+Tag.create(user_id: 1, description: "Nob Hill", tag_type: "locations")
+Tag.create(user_id: 1, description: "Meet Up", tag_type: "interests")
+Tag.create(user_id: 1, description: "Fashion", tag_type: "interests")
+                  
 90.times do
     ContactsTag.create(
         contact_id: Faker::Number.between(
@@ -65,7 +74,7 @@ end
             to: 30),
         tag_id: Faker::Number.between(
             from: 1, 
-            to: 20)
+            to: 15)
     )
 end
 

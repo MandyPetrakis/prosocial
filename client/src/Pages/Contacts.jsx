@@ -1,23 +1,42 @@
-import { useState, useEffect } from "react";
-import { useCurrentUser } from "../Store/userStore";
-import { useRequestProcessor } from "../requestProcessor";
+import { useState } from "react";
+import { useContacts } from "../Store/contactsStore";
+import ContactDetails from "../Components/ContactDetails";
+import NewContactForm from "../Components/NewContactForm";
 
 export default function Contacts() {
-  const { query } = useRequestProcessor();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentContact, setCurrentContact] = useState();
-  const contacts = useCurrentUser((state) => state.contacts);
+  const contacts = useContacts((state) => state.contacts);
+  const setContacts = useContacts((state) => state.setContacts);
+  const [modal, setModal] = useState();
 
-  const contactCards = contacts.map((c) => {
-    return (
-      <div
-        key={c.id}
-        className="cursor-pointer whitespace-nowrap border-teal border-2 rounded-md p-2 mb-2.5 min-w-fit"
-      >
-        {c.first_name + " " + c.last_name}
-      </div>
-    );
-  });
+  function toggleModal() {
+    setModal(!modal);
+  }
+
+  // const contactCards = contacts
+  //   .sort(function (a, b) {
+  //     if (a.first_name < b.first_name) {
+  //       return -1;
+  //     }
+  //     if (a.first_name > b.first_name) {
+  //       return 1;
+  //     }
+  //     return 0;
+  //   })
+  //   .map((c) => {
+  //     return (
+  //       <div
+  //         key={c.id}
+  //         onClick={() => setCurrentContact(c)}
+  //         className={` ${
+  //           currentContact === c ? "font-semibold bg-purple text-grey" : ""
+  //         } cursor-pointer whitespace-nowrap border-teal border-2 rounded-md px-3 py-2 mb-2.5 min-w-fit hover:font-semibold`}
+  //       >
+  //         {c.first_name + " " + c.last_name}
+  //       </div>
+  //     );
+  //   });
 
   const searchBar = (
     <input
@@ -29,26 +48,73 @@ export default function Contacts() {
     />
   );
 
-  const currentContactDisplay = (
-    <div className="m-2.5 w-3/4">
-      <div>First Last</div>
-      <div>Occupation</div>
-      <div>Company</div>
-      <div>Relationship</div>
-      <div>Tags</div>
-      <div>Last contact</div>
-      <div>Notes</div>
-      <div>Connections</div>
+  const addContactButton = (
+    <div
+      onClick={toggleModal}
+      className="text-7xl fixed bottom-0 left-48 cursor-pointer w-52 bg-background bg-opacity-80"
+    >
+      +
     </div>
   );
 
-  return (
-    <>
-      {searchBar}
-      <div className="flex">
-        <div className="m-2.5 w-1/4 min-w-fit">{contactCards}</div>
-        {currentContactDisplay}
+  const modalRender = () => {
+    return (
+      <div className="absolute w-full h-full">
+        <div
+          onClick={toggleModal}
+          className="z-10 w-full h-full top-0 left-0 right-0 bottom-0 fixed"
+        ></div>
+        <div className="z-20 fixed top-100 left-100 right-100 bottom-100 left 1/2  bg-darkBlue bg-opacity-90 px-20 py-10 rounded-md grid place-content-center">
+          <NewContactForm
+            toggleModal={toggleModal}
+            setContacts={setContacts}
+            setCurrentContact={setCurrentContact}
+          />
+        </div>
       </div>
-    </>
+    );
+  };
+
+  return (
+    <div className="relative">
+      {searchBar}
+      <div className="relative">
+        <div className="m-2.5 w-1/4 min-w-fit pb-10">
+          {contacts
+            .sort(function (a, b) {
+              if (a.first_name < b.first_name) {
+                return -1;
+              }
+              if (a.first_name > b.first_name) {
+                return 1;
+              }
+              return 0;
+            })
+            .map((c) => {
+              return (
+                <div
+                  key={c.id}
+                  onClick={() => setCurrentContact(c)}
+                  className={` ${
+                    currentContact === c
+                      ? "font-semibold bg-purple text-grey"
+                      : ""
+                  } cursor-pointer whitespace-nowrap border-teal border-2 rounded-md px-3 py-2 mb-2.5 min-w-fit hover:font-semibold`}
+                >
+                  {c.first_name + " " + c.last_name}
+                </div>
+              );
+            })}
+        </div>
+        {currentContact ? (
+          <ContactDetails
+            currentContact={currentContact}
+            setCurrentContact={setCurrentContact}
+          />
+        ) : null}
+      </div>
+      {modal ? modalRender() : null}
+      {addContactButton}
+    </div>
   );
 }
