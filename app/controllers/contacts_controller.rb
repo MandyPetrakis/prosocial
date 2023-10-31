@@ -18,8 +18,13 @@ end
 
 def create 
     user = User.find(session[:user_id])
-    contact = user.contacts.create!(contact_params)
-    render json: contact, status: :created
+    Contact.transaction do 
+        contact = user.contacts.create!(contact_params)
+        params[:phone_numbers].each do |p|
+            create_contact_phone_number(contact, p)
+        end
+        render json: contact, status: :created
+    end
 end
 
 def update
@@ -38,7 +43,11 @@ end
 private 
 
 def contact_params
-    params.permit(:user_id, :relationship, :company, :industry, :last_interaction, :follow_up_cadence, :first_name, :last_name, :occupation, :email, :company, :occupation)
+    params.permit(:user_id, :relationship, :company, :industry, :first_name, :last_name, :occupation, :email, :company, :phone_numbers)
 end
+
+def create_contact_phone_number (current_contact, p)
+    current_contact.contact_phone_numbers.create!(phone_number: p[:phone_number], phone_number_type: p[:phone_number_type], contact_id: current_contact.id)
+end 
 
 end

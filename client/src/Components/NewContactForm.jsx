@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useRequestProcessor } from "../requestProcessor";
+import { useContacts } from "../Store/contactsStore";
 
-export default function NewContactForm({
-  toggleModal,
-  setCurrentContact,
-  setContacts,
-}) {
+export default function NewContactForm({ toggleModal, setCurrentContact }) {
   const { mutate } = useRequestProcessor();
+  const contacts = useContacts((state) => state.contacts);
+  const setContacts = useContacts((state) => state.setContacts);
 
   const [contactInputs, setContactInputs] = useState({
     first_name: "",
@@ -25,28 +24,25 @@ export default function NewContactForm({
 
     setContactInputs({
       ...contactInputs,
-      [name]: value.charAt(0).toUppercase() + value.slice(1).toLowerCase(),
+      [name]: value,
     });
   };
 
   const [phoneInputs, setPhoneInputs] = useState([
     {
       phone_number: "",
-      phone_numer_type: "",
+      phone_number_type: "cell",
     },
   ]);
-
-  const { phone_number, phone_number_type } = phoneInputs;
 
   const handlePhoneInputs = (index, event) => {
     let data = [...phoneInputs];
     data[index][event.target.name] = event.target.value;
-
     setPhoneInputs(data);
   };
 
   const addPhoneFields = () => {
-    let newField = { phone_number: "", phone_number_type: "" };
+    let newField = { phone_number: "", phone_number_type: "cell" };
     setPhoneInputs([...phoneInputs, newField]);
   };
 
@@ -61,12 +57,13 @@ export default function NewContactForm({
   const addContactMutation = mutate(
     ["newContact"],
     async () => {
+      const newContact = { ...contactInputs, phone_numbers: phoneInputs };
       const response = await fetch("/api/contacts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(contactInputs),
+        body: JSON.stringify(newContact),
       });
       if (!response.ok) {
         throw new Error("Unauthorized");
@@ -125,7 +122,7 @@ export default function NewContactForm({
               name="phone_number_type"
               className="rounded h-10 border-[1px] border-teal mt-5 mr-2 px-1"
               onChange={(event) => handlePhoneInputs(index, event)}
-              defaultValue={"cell"}
+              value={input.phone_number_type}
             >
               <option value="cell">Cell</option>
               <option value="home">Home</option>
@@ -198,7 +195,7 @@ export default function NewContactForm({
           <input
             type="text"
             placeholder="Company"
-            name="comapny"
+            name="company"
             className={`${styles.inputStyle} sm:w-48 sm:mr-3`}
             value={company}
             onChange={updateContactInputs}

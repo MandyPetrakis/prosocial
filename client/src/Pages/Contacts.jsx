@@ -7,7 +7,6 @@ export default function Contacts() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentContact, setCurrentContact] = useState();
   const contacts = useContacts((state) => state.contacts);
-  const setContacts = useContacts((state) => state.setContacts);
   const [modal, setModal] = useState();
 
   function toggleModal() {
@@ -64,10 +63,9 @@ export default function Contacts() {
           onClick={toggleModal}
           className="z-10 w-full h-full top-0 left-0 right-0 bottom-0 fixed"
         ></div>
-        <div className="z-20 fixed top-100 left-100 right-100 bottom-100 left 1/2  bg-darkBlue bg-opacity-90 px-20 py-10 rounded-md grid place-content-center">
+        <div className="z-20 fixed top-100 left-100 right-100 bottom-100 left 1/2  bg-darkBlue bg-opacity-90 px-20 py-10 rounded-md grid place-content-center overflow-scroll">
           <NewContactForm
             toggleModal={toggleModal}
-            setContacts={setContacts}
             setCurrentContact={setCurrentContact}
           />
         </div>
