@@ -7,6 +7,7 @@ class User < ApplicationRecord
     validates :password, length: {in: 3..30, :on =>:create}
 
     has_many :contacts, dependent: :destroy
+    has_many :tags, dependent: :destroy
 
 
 def tag_types
@@ -19,6 +20,10 @@ end
 def tag_list
    tags = self.contacts.collect {|c| c.tags}    
    tags.flatten.uniq
+end
+
+def user_tags 
+   self.tags.uniq
 end
 
 end
