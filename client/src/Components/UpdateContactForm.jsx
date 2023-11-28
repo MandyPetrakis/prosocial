@@ -11,8 +11,6 @@ export default function UpdateContactForm({
   const setContacts = useContacts((state) => state.setContacts);
   const contacts = useContacts((state) => state.contacts);
 
-  const socialTypes = ["Facebook", "LinkedIn", "Instagram", "X"];
-
   const [contactInputs, setContactInputs] = useState({
     first_name: currentContact.first_name,
     last_name: currentContact.last_name,
@@ -20,10 +18,18 @@ export default function UpdateContactForm({
     relationship: currentContact.relationship,
     occupation: currentContact.occupation,
     company: currentContact.company,
+    phone_number: currentContact.phone_number,
   });
 
-  const { first_name, last_name, email, relationship, occupation, company } =
-    contactInputs;
+  const {
+    first_name,
+    last_name,
+    phone_number,
+    email,
+    relationship,
+    occupation,
+    company,
+  } = contactInputs;
 
   const updateContactInputs = (e) => {
     const { name, value } = e.target;
@@ -32,87 +38,6 @@ export default function UpdateContactForm({
       ...contactInputs,
       [name]: value,
     });
-  };
-
-  function setContactPhones() {
-    if (currentContact.contact_phone_numbers.length == 0) {
-      return [
-        {
-          phone_number: "",
-          phone_number_type: "",
-          deleted: "false",
-        },
-      ];
-    } else {
-      let phones = currentContact.contact_phone_numbers.map((p) => {
-        return {
-          phone_number: p.phone_number,
-          phone_number_type: p.phone_number_type,
-          deleted: "false",
-          id: p.id,
-        };
-      });
-      return phones;
-    }
-  }
-  const [phoneInputs, setPhoneInputs] = useState(() => setContactPhones());
-
-  const handlePhoneInputs = (index, event) => {
-    let data = [...phoneInputs];
-    data[index][event.target.name] = event.target.value;
-    data[index].deleted = "false";
-    setPhoneInputs(data);
-  };
-
-  const addPhoneFields = () => {
-    let newField = {
-      phone_number: "",
-      phone_number_type: "",
-      deleted: "false",
-    };
-    setPhoneInputs([...phoneInputs, newField]);
-  };
-
-  const handlePhoneDelete = (index) => {
-    let data = [...phoneInputs];
-    console.log(data[index]);
-    data[index].deleted = "true";
-    data[index].phone_number_type = "";
-    data[index].phone_number = "";
-
-    setPhoneInputs(data);
-  };
-
-  function setSocials() {
-    if (currentContact.contact_socials.length == 0) {
-      return [
-        {
-          url: "",
-          social_type: "s.social_type",
-        },
-      ];
-    } else {
-      let socials = currentContact.contact_socials.map((s) => {
-        return {
-          url: s.url,
-          social_type: s.social_type,
-        };
-      });
-      return socials;
-    }
-  }
-
-  const [socialInputs, setSocialInputs] = useState(() => setSocials());
-
-  const handleSocialInputs = (index, event) => {
-    let data = [...socialInputs];
-    data[index][event.target.name] = event.target.value;
-    setSocialInputs(data);
-  };
-
-  const addSocialFields = () => {
-    let newField = { social_type: "", url: "" };
-    setSocialInputs([...socialInputs, newField]);
   };
 
   const styles = {
@@ -128,11 +53,7 @@ export default function UpdateContactForm({
     async () => {
       const updatedContact = {
         ...contactInputs,
-        phone_numbers: phoneInputs,
-        socials: socialInputs,
       };
-
-      console.log(updatedContact);
 
       const response = await fetch(`/api/contacts/${currentContact.id}`, {
         method: "PATCH",
@@ -144,12 +65,14 @@ export default function UpdateContactForm({
       if (!response.ok) {
         throw new Error("Unauthorized");
       }
-      return response;
+      return response.json();
     },
     {
       onSuccess: (data) => {
-        console.log(data);
-        const updatedContacts = [...contacts, data];
+        const updatedContacts = contacts.map((c) => {
+          if (c.id === data.id) return data;
+          else return c;
+        });
         setCurrentContact(data);
         setContacts(updatedContacts);
         setIsEditing(false);
@@ -262,6 +185,19 @@ export default function UpdateContactForm({
         <div className={styles.fieldStyle}>
           <input
             type="text"
+            placeholder="Phone Number"
+            name="phone_number"
+            className={styles.inputStyle}
+            value={phone_number}
+            onChange={updateContactInputs}
+          />
+          <label htmlFor="phone_number" className={styles.labelStyle}>
+            Phone Number
+          </label>
+        </div>
+        <div className={styles.fieldStyle}>
+          <input
+            type="text"
             placeholder="Email"
             name="email"
             className={styles.inputStyle}
@@ -272,110 +208,7 @@ export default function UpdateContactForm({
             Email
           </label>
         </div>
-        {phoneInputs.map((input, index) => {
-          return (
-            <div key={index} className="flex items-center ">
-              <div className={styles.fieldStyle}>
-                <select
-                  name="phone_number_type"
-                  className="rounded h-10 border-[1px] border-teal mr-2 px-1"
-                  onChange={(event) => handlePhoneInputs(index, event)}
-                  value={input.phone_number_type}
-                >
-                  <option disabled value="">
-                    Type
-                  </option>
-                  <option value="cell">Cell</option>
-                  <option value="home">Home</option>
-                  <option value="work">Work</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-              <div className={styles.fieldStyle}>
-                <input
-                  type="text"
-                  placeholder="Phone Number"
-                  name="phone_number"
-                  className={`${styles.inputStyle} w-44 md:w-64`}
-                  value={input.phone_number}
-                  onChange={(event) => handlePhoneInputs(index, event)}
-                />
-                <label htmlFor="phone_number" className={styles.labelStyle}>
-                  Phone Number
-                </label>
-              </div>
-              <div className={styles.fieldStyle}>
-                <div
-                  className="text-2xl font-bold bg-teal w-8 h-8 text-center rounded-full grid place-content-center cursor-pointer ml-2"
-                  onClick={() => handlePhoneDelete(index)}
-                >
-                  x
-                </div>
-              </div>
-              {index === phoneInputs.length - 1 &&
-              input.phone_number !== "" &&
-              input.phone_number_type !== "" ? (
-                <div className={styles.fieldStyle}>
-                  <div
-                    className="text-2xl font-bold bg-teal w-8 h-8 text-center rounded-full grid place-content-center cursor-pointer ml-2"
-                    onClick={addPhoneFields}
-                  >
-                    +
-                  </div>
-                </div>
-              ) : null}
-            </div>
-          );
-        })}
-        {socialInputs.map((input, index) => {
-          return (
-            <div key={index} className="flex items-center ">
-              <div className={styles.fieldStyle}>
-                <select
-                  name="social_type"
-                  className="rounded h-10 border-[1px] border-teal mr-2 px-1"
-                  onChange={(event) => handleSocialInputs(index, event)}
-                  defaultValue="type"
-                >
-                  <option disabled value="type">
-                    {" "}
-                    Type
-                  </option>
-                  {socialTypes.map((t) => {
-                    return (
-                      <option key={t} value={t}>
-                        {t}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-              <div className={styles.fieldStyle}>
-                <input
-                  type="text"
-                  placeholder="Url"
-                  name="url"
-                  className={`${styles.inputStyle} w-44 md:w-64`}
-                  value={input.url}
-                  onChange={(event) => handleSocialInputs(index, event)}
-                />
-                <label htmlFor="url" className={styles.labelStyle}>
-                  Url
-                </label>
-              </div>
-              {index === socialInputs.length - 1 ? (
-                <div className={styles.fieldStyle}>
-                  <div
-                    className="text-2xl font-bold bg-teal w-8 h-8 text-center rounded-full grid place-content-center cursor-pointer ml-2"
-                    onClick={addSocialFields}
-                  >
-                    +
-                  </div>
-                </div>
-              ) : null}
-            </div>
-          );
-        })}
+
         <button
           onClick={(e) => handleSubmit(e)}
           className="cursor-pointer mb-5 rounded-md shadow-md bg-purple text-white px-2 py-1 whitespace-nowrap w-full text-center font-semibold hover:shadow-lg hover:bg-gradient-to-r from-purple to-teal"

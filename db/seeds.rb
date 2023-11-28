@@ -23,21 +23,21 @@ relationship_type = ["friend", "colleague", "cousin", "sister", "brother", "neig
         occupation: Faker::Job.position,
         last_interaction: Faker::Date.between(from: '2014-09-23', to: '2023-09-25'),
         email: Faker::Internet.email,
-        follow_up_cadence: 14
+        phone_number: Faker::PhoneNumber.phone_number,
         )
     end
     
-social_type = ["instagram", "linkedIn", "twitter", "facebook"]
+# social_type = ["instagram", "linkedIn", "twitter", "facebook"]
     
-70.times do 
-    ContactSocial.create(
-        contact_id: Faker::Number.between(
-            from: 1, 
-            to: 30),
-        url: Faker::Internet.url,
-        social_type: social_type.sample,
-    )
-end
+# 70.times do 
+#     ContactSocial.create(
+#         contact_id: Faker::Number.between(
+#             from: 1, 
+#             to: 30),
+#         url: Faker::Internet.url,
+#         social_type: social_type.sample,
+#     )
+# end
             
 # 50.times do
 #     ContactsBridge.create(
@@ -50,22 +50,21 @@ end
 #     )
 # end
                                             
-Tag.create(user_id: 1,description: "San Francisco", tag_type: "locations")
-Tag.create(user_id: 1, description: "New York", tag_type: "locations")
-Tag.create(user_id: 1, description: "Tech", tag_type: "work")
-Tag.create(user_id: 1, description: "Lifting", tag_type: "interests")
-Tag.create(user_id: 1, description: "Dog Park", tag_type: "locations")
-Tag.create(user_id: 1, description: "Movies", tag_type: "interests")
-Tag.create(user_id: 1, description: "Flatiron School", tag_type: "education")
-Tag.create(user_id: 1, description: "New York", tag_type: "locations")
-Tag.create(user_id: 1, description: "Games", tag_type: "interests")
-Tag.create(user_id: 1, description: "Restaurants", tag_type: "work")
-Tag.create(user_id: 1, description: "lululemon", tag_type: "work")
-Tag.create(user_id: 1, description: "Comedy", tag_type: "interests")
-Tag.create(user_id: 1, description: "Mentors", tag_type: "work")
-Tag.create(user_id: 1, description: "Nob Hill", tag_type: "locations")
-Tag.create(user_id: 1, description: "Meet Up", tag_type: "interests")
-Tag.create(user_id: 1, description: "Fashion", tag_type: "interests")
+Tag.create(user_id: 1, description: "San Francisco")
+Tag.create(user_id: 1, description: "Tech")
+Tag.create(user_id: 1, description: "Lifting")
+Tag.create(user_id: 1, description: "Dog Park")
+Tag.create(user_id: 1, description: "Movies")
+Tag.create(user_id: 1, description: "Flatiron School")
+Tag.create(user_id: 1, description: "New York")
+Tag.create(user_id: 1, description: "Games")
+Tag.create(user_id: 1, description: "Restaurants")
+Tag.create(user_id: 1, description: "lululemon")
+Tag.create(user_id: 1, description: "Comedy")
+Tag.create(user_id: 1, description: "Mentors")
+Tag.create(user_id: 1, description: "Nob Hill")
+Tag.create(user_id: 1, description: "Meet Up")
+Tag.create(user_id: 1, description: "Fashion")
                   
 90.times do
     ContactsTag.create(
@@ -148,17 +147,17 @@ end
 #     )
 # end
 
-phone_number_type = ["cell", "work", "home"]
+# phone_number_type = ["cell", "work", "home"]
 
-50.times do
-    ContactPhoneNumber.create(
-         contact_id: Faker::Number.between(
-            from: 1, 
-            to: 30),
-        phone_number: Faker::PhoneNumber.phone_number,
-        phone_number_type: phone_number_type.sample
-    )
-end
+# 50.times do
+#     ContactPhoneNumber.create(
+#          contact_id: Faker::Number.between(
+#             from: 1, 
+#             to: 30),
+#         phone_number: Faker::PhoneNumber.phone_number,
+#         phone_number_type: phone_number_type.sample
+#     )
+# end
 
 
 puts "seed complete"

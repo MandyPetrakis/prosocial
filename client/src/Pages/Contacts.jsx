@@ -39,7 +39,7 @@ export default function Contacts() {
           onClick={toggleModal}
           className="z-10 w-full h-full top-0 left-0 right-0 bottom-0 fixed"
         ></div>
-        <div className="z-20 fixed top-0 left-0 right-0 bottom-0 left 1/2  bg-darkBlue bg-opacity-90 px-20 py-10 rounded-md grid place-content-center overflow-scroll">
+        <div className="z-20 fixed top-50 sm:top-100 right-50 left-50  bottom-50 left 1/2  bg-darkBlue bg-opacity-90 px-20 py-10 rounded-md grid place-content-center overflow-scroll">
           <NewContactForm
             toggleModal={toggleModal}
             setCurrentContact={setCurrentContact}

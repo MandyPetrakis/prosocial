@@ -4,7 +4,6 @@ import Contacts from "./Pages/Contacts.jsx";
 import Account from "./Pages/Account.jsx";
 import Communities from "./Pages/Communities.jsx";
 import Group from "./Pages/Group.jsx";
-import CommunityManager from "./Pages/CommunityManager.jsx";
 import { groupLoader } from "./Pages/Group.jsx";
 import "./index.css";
 import { createRoot } from "react-dom/client";
@@ -32,10 +31,6 @@ const router = createBrowserRouter([
         path: "/groups/:group_id",
         element: <Group />,
         loader: groupLoader,
-      },
-      {
-        path: "/community_manager",
-        element: <CommunityManager />,
       },
     ],
   },

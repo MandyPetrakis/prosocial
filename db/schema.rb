@@ -10,25 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_12_015130) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_24_014322) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "contact_phone_numbers", force: :cascade do |t|
-    t.string "contact_id"
-    t.string "phone_number"
-    t.string "phone_number_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "contact_socials", force: :cascade do |t|
-    t.integer "contact_id"
-    t.string "url"
-    t.string "social_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "contacts", force: :cascade do |t|
     t.integer "user_id"
@@ -43,6 +27,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_12_015130) do
     t.string "first_name"
     t.string "last_name"
     t.string "occupation"
+    t.string "phone_number"
   end
 
   create_table "contacts_tags", force: :cascade do |t|

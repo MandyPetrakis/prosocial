@@ -30,7 +30,7 @@ class TagsController < ApplicationController
     private 
     
     def tag_params
-        params.permit(:user_id, :description, :type)
+        params.permit(:id, :description)
     end
     
 end

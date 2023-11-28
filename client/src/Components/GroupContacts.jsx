@@ -4,7 +4,7 @@ export default function GroupContacts({ description }) {
   const contacts = useUser((state) => state.user.contacts);
 
   const groupContacts = contacts
-    .filter((c) => c.tags.some((tag) => tag.description === description))
+    .filter((c) => c.uniq_tags.some((tag) => tag.description === description))
     .map((c) => (
       <div
         key={c.id}

@@ -6,15 +6,10 @@ class Contact < ApplicationRecord
     belongs_to :user
     has_many :contacts_tags
     has_many :tags, through: :contacts_tags
-    has_many :contact_phone_numbers, dependent: :destroy
-    has_many :contact_socials, dependent: :destroy
 
-    private 
-
-    def validate_first_or_last
-
+    def uniq_tags 
+        self.tags.uniq
     end
-
 
 end
 

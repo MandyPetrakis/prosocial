@@ -6,26 +6,13 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
 
   //Data renders
 
-  const contactTags = currentContact.tags.map((t) => (
+  const contactTags = currentContact.uniq_tags.map((t) => (
     <div
       key={t.id}
       className="mr-1 rounded-lg border-2 px-2 bg-darkBlue whitespace-nowrap min-w-fit"
     >
       {t.description.charAt(0).toUpperCase() +
         t.description.slice(1).toLowerCase()}
-    </div>
-  ));
-
-  const contactPhones = currentContact.contact_phone_numbers.map((p) => (
-    <div key={p.id}>
-      <span className="mr-1 font-semibold">{p.phone_number_type}:</span>
-      {p.phone_number}
-    </div>
-  ));
-
-  const contactSocials = currentContact.contact_socials.map((s) => (
-    <div key={s.id} className="mr-1">
-      <a href={s.url}>{s.social_type}</a>
     </div>
   ));
 
@@ -71,7 +58,7 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
           </div>
         )}
 
-        {currentContact.first_name === "" ? (
+        {currentContact.last_name === "" ? (
           <div className={styles.add}>+ Last</div>
         ) : (
           <div>
@@ -115,10 +102,10 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
       </div>
 
       <div className={styles.phone_numbers}>
-        {contactPhones.length !== 0 ? (
-          <>{contactPhones}</>
-        ) : (
+        {currentContact.phone_number === "" ? (
           <div className={styles.add}>+ Phone Numbers</div>
+        ) : (
+          <div>{currentContact.phone_number}</div>
         )}
       </div>
 
@@ -127,14 +114,6 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
           <div className={styles.add}>+ Email</div>
         ) : (
           <div className="ml-1">{currentContact.email}</div>
-        )}
-      </div>
-
-      <div className={styles.socials}>
-        {contactSocials.length !== 0 ? (
-          <>{contactSocials}</>
-        ) : (
-          <div className={styles.add}>+ Social Media</div>
         )}
       </div>
 

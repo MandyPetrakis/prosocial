@@ -18,8 +18,15 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
     company: "",
   });
 
-  const { first_name, last_name, email, relationship, occupation, company } =
-    contactInputs;
+  const {
+    first_name,
+    last_name,
+    email,
+    relationship,
+    occupation,
+    company,
+    phone_number,
+  } = contactInputs;
 
   const updateContactInputs = (e) => {
     const { name, value } = e.target;
@@ -51,42 +58,6 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
   //   setTagInputs([...tagInputs, newField]);
   // };
 
-  const [phoneInputs, setPhoneInputs] = useState([
-    {
-      phone_number: "",
-      phone_number_type: "",
-    },
-  ]);
-
-  const handlePhoneInputs = (index, event) => {
-    let data = [...phoneInputs];
-    data[index][event.target.name] = event.target.value;
-    setPhoneInputs(data);
-  };
-
-  const addPhoneFields = () => {
-    let newField = { phone_number: "", phone_number_type: "cell" };
-    setPhoneInputs([...phoneInputs, newField]);
-  };
-
-  const [socialInputs, setSocialInputs] = useState([
-    {
-      social_type: "",
-      url: "",
-    },
-  ]);
-
-  const handleSocialInputs = (index, event) => {
-    let data = [...socialInputs];
-    data[index][event.target.name] = event.target.value;
-    setSocialInputs(data);
-  };
-
-  const addSocialFields = () => {
-    let newField = { social_type: "", url: "" };
-    setSocialInputs([...socialInputs, newField]);
-  };
-
   const styles = {
     fieldStyle: "relative pt-5 mb-2 ",
     inputStyle:
@@ -100,8 +71,6 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
     async () => {
       const newContact = {
         ...contactInputs,
-        phone_numbers: phoneInputs.filter((p) => p.phone_number !== ""),
-        socials: socialInputs.filter((s) => s.url !== ""),
       };
       const response = await fetch("/api/contacts", {
         method: "POST",
@@ -237,6 +206,21 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
         );
       })} */}
       </>
+
+      <div className={styles.fieldStyle}>
+        <input
+          type="text"
+          placeholder="Phone Number"
+          name="phone_number"
+          className={`${styles.inputStyle} w-44 md:w-64`}
+          value={phone_number}
+          onChange={updateContactInputs}
+        />
+        <label htmlFor="phone_number" className={styles.labelStyle}>
+          Phone Number
+        </label>
+      </div>
+
       <div className={styles.fieldStyle}>
         <input
           type="text"
@@ -250,100 +234,6 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
           Email
         </label>
       </div>
-      {phoneInputs.map((input, index) => {
-        return (
-          <div key={index} className="flex items-center ">
-            <div className={styles.fieldStyle}>
-              <select
-                name="phone_number_type"
-                className="rounded h-10 border-[1px] border-teal mr-2 px-1"
-                onChange={(event) => handlePhoneInputs(index, event)}
-                defaultValue="type"
-              >
-                <option disabled value="type">
-                  Select
-                </option>
-                <option value="cell">Cell</option>
-                <option value="home">Home</option>
-                <option value="work">Work</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div className={styles.fieldStyle}>
-              <input
-                type="text"
-                placeholder="Phone Number"
-                name="phone_number"
-                className={`${styles.inputStyle} w-44 md:w-64`}
-                value={input.phone_number}
-                onChange={(event) => handlePhoneInputs(index, event)}
-              />
-              <label htmlFor="phone_number" className={styles.labelStyle}>
-                Phone Number
-              </label>
-            </div>
-            {index === phoneInputs.length - 1 ? (
-              <div className={styles.fieldStyle}>
-                <div
-                  className="text-2xl font-bold bg-teal w-8 h-8 text-center rounded-full grid place-content-center cursor-pointer ml-2"
-                  onClick={addPhoneFields}
-                >
-                  +
-                </div>
-              </div>
-            ) : null}
-          </div>
-        );
-      })}
-      {socialInputs.map((input, index) => {
-        return (
-          <div key={index} className="flex items-center mb-5">
-            <div className={styles.fieldStyle}>
-              <select
-                key={index}
-                name="social_type"
-                className="rounded h-10 border-[1px] border-teal mr-2 px-1"
-                onChange={(event) => handleSocialInputs(index, event)}
-                defaultValue="type"
-              >
-                <option disabled value="type">
-                  Type
-                </option>
-                {socialTypes.map((t) => {
-                  return (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            <div className={styles.fieldStyle}>
-              <input
-                type="text"
-                placeholder="Url"
-                name="url"
-                className={`${styles.inputStyle} w-44 md:w-64`}
-                value={input.url}
-                onChange={(event) => handleSocialInputs(index, event)}
-              />
-              <label htmlFor="url" className={styles.labelStyle}>
-                Url
-              </label>
-            </div>
-            {index === socialInputs.length - 1 ? (
-              <div className={styles.fieldStyle}>
-                <div
-                  className="text-2xl font-bold bg-teal w-8 h-8 text-center rounded-full grid place-content-center cursor-pointer ml-2"
-                  onClick={addSocialFields}
-                >
-                  +
-                </div>
-              </div>
-            ) : null}
-          </div>
-        );
-      })}
 
       <button
         onClick={(e) => handleSubmit(e)}
