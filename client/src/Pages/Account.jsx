@@ -15,5 +15,31 @@ export default function Account() {
     return response;
   });
 
-  return <div onClick={() => logOutMutation.mutate()}>Log Out</div>;
+  const userDetails = (
+    <>
+      <div className="font-bold mb-5">
+        {user.first_name} {user.last_name}
+      </div>
+      <div>{user.phone_number}</div>
+      <div className="mb-5">{user.email}</div>
+      <div>Contacts: {user.contacts.length}</div>
+      <div>Communities: {user.tags.length}</div>
+    </>
+  );
+
+  const logOutButton = (
+    <button
+      className="bg-teal px-2 py1 rounded-md border-2 mt-10 border-darkBlue"
+      onClick={() => logOutMutation.mutate()}
+    >
+      Log Out
+    </button>
+  );
+
+  return (
+    <div>
+      {userDetails}
+      {logOutButton}
+    </div>
+  );
 }

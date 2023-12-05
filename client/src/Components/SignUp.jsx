@@ -10,6 +10,7 @@ export default function SignUp({ setIsReturningUser }) {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const setUser = useUser((state) => state.setUser);
   const { mutate } = useRequestProcessor();
+  const [errors, setErrors] = useState();
 
   const signUpMutation = mutate(["currentUser"], async () => {
     const user = {
@@ -28,11 +29,11 @@ export default function SignUp({ setIsReturningUser }) {
       body: JSON.stringify(user),
     });
     if (!response.ok) {
+      setErrors("All fields required");
       throw new Error("Unauthorized");
     }
     return response.json();
   });
-
   const header = (
     <h2 className="text-lg font-medium mb-5">
       Join our community today and start connecting.
@@ -112,6 +113,7 @@ export default function SignUp({ setIsReturningUser }) {
           Confirm Password
         </label>
       </div>
+      {errors ? <div className="text-red-500">*{errors}</div> : null}
       <div
         className="cursor-pointer rounded-md mt-4 shadow-md bg-darkBlue text-white px-2 py-1 w-1/3 text-center font-semibold hover:shadow-lg hover:bg-gradient-to-r from-purple to-darkBlue"
         onClick={handleSignUp}

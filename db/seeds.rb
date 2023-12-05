@@ -73,7 +73,8 @@ Tag.create(user_id: 1, description: "Fashion")
             to: 30),
         tag_id: Faker::Number.between(
             from: 1, 
-            to: 15)
+            to: 15),
+        user_id: 1
     )
 end
 

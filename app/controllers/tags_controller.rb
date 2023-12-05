@@ -1,4 +1,5 @@
 class TagsController < ApplicationController
+    before_action :authorize
 
     def index
         tags = Tag.all
@@ -29,8 +30,20 @@ class TagsController < ApplicationController
     
     private 
     
+
+    def authorize
+        if params[:user_id]
+        return render json: [error: "Not Authorized"], status: :unauthorized unless session[:user_id] === params[:user_id]
+        else  
+        tag = Tag.find(params[:id])
+        return render json: [error: "Not Authorized"], status: :unauthorized unless session[:user_id] === tag.user_id
+        end
+    end
+
+
+
     def tag_params
-        params.permit(:id, :description)
+        params.permit(:id, :description, :user_id)
     end
     
 end

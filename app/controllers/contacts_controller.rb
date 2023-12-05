@@ -1,4 +1,5 @@
 class ContactsController < ApplicationController
+    before_action :authorize
   
 def index
     if session[:user_id]
@@ -37,6 +38,15 @@ def destroy
 end
 
 private 
+
+    def authorize
+        if params[:user_id]
+        return render json: [error: "Not Authorized"], status: :unauthorized unless session[:user_id] === params[:user_id]
+        else  
+        contact = Contact.find(params[:id])
+        return render json: [error: "Not Authorized"], status: :unauthorized unless session[:user_id] === contact.user_id
+        end
+    end
 
 def contact_params
     params.permit(:user_id, :relationship, :company, :industry, :first_name, :last_name, :occupation, :email, :company, :phone_number, :tags)

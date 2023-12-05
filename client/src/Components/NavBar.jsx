@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom";
+import { useUser } from "../Store/userStore";
 
 export default function NavBar() {
   const activeStyle = "underline underline-offset-2";
   const inactiveStyle = "hover:text-purple";
+  const user = useUser((state) => state.user);
 
   return (
     <div className="mx-20 mb-10 ">
@@ -24,7 +26,10 @@ export default function NavBar() {
           Communities
         </NavLink>
         <div className="bg-purple h-10 w-10 p-2 rounded-full font-semibold text-center">
-          <NavLink to="/account">AI</NavLink>
+          <NavLink to="/account">
+            {user.first_name.charAt(0)}
+            {user.last_name.charAt(0)}
+          </NavLink>
         </div>
       </div>
     </div>

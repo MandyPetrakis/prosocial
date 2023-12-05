@@ -24,6 +24,7 @@ export default function LogIn({ setIsReturningUser }) {
     });
 
     if (!response.ok) {
+      setErrors("Invalid email or password");
       throw new Error("Unauthorized");
     }
     return response.json();
@@ -77,6 +78,8 @@ export default function LogIn({ setIsReturningUser }) {
           Password
         </label>
       </div>
+      {errors ? <div className="text-red-500">*{errors}</div> : null}
+
       <div
         className="cursor-pointer rounded-md mt-4 shadow-md bg-darkBlue text-white px-2 py-1 w-1/3 text-center font-semibold hover:shadow-lg hover:bg-gradient-to-r from-purple to-darkBlue"
         onClick={handleLogIn}

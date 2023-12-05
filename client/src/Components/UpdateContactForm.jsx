@@ -73,7 +73,9 @@ export default function UpdateContactForm({
           if (c.id === data.id) return data;
           else return c;
         });
-        setCurrentContact(data);
+        {
+          setCurrentContact ? setCurrentContact(data) : null;
+        }
         setContacts(updatedContacts);
         setIsEditing(false);
       },

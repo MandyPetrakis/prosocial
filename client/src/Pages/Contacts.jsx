@@ -1,27 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useContacts } from "../Store/contactsStore";
 import ContactDetails from "../Components/ContactDetails";
 import NewContactForm from "../Components/NewContactForm";
+import { useUser } from "../Store/userStore";
 
 export default function Contacts() {
-  const [searchQuery, setSearchQuery] = useState("");
   const [currentContact, setCurrentContact] = useState();
-  const contacts = useContacts((state) => state.contacts);
+  const user = useUser((state) => state.user);
+  const setContacts = useContacts((state) => state.setContacts);
+  const contacts = user.contacts;
+
   const [modal, setModal] = useState();
 
   function toggleModal() {
     setModal(!modal);
   }
-
-  const searchBar = (
-    <input
-      className="border-2 border-darkBlue bg-transparent rounded-md px-2 py-1 focus:outline-none"
-      type="search"
-      value={searchQuery}
-      placeholder="search"
-      onChange={(e) => setSearchQuery(e.target.value)}
-    />
-  );
 
   const addContactButton = (
     <div
@@ -51,7 +44,6 @@ export default function Contacts() {
 
   return (
     <div className="relative">
-      {searchBar}
       <div className="relative">
         <div className="m-2.5 w-1/4 min-w-fit pb-10">
           {contacts
@@ -88,7 +80,6 @@ export default function Contacts() {
           <ContactDetails
             toggleModal={toggleModal}
             currentContact={currentContact}
-            setCurrentContact={setCurrentContact}
           />
         ) : null}
       </div>

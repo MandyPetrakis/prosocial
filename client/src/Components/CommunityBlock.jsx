@@ -1,8 +1,8 @@
 import GroupContacts from "./GroupContacts";
 import { useState } from "react";
 import { useCommunities } from "../Store/communityStore";
-
 import { useRequestProcessor } from "../requestProcessor";
+import { useNavigate } from "react-router-dom";
 
 export default function CommunityBlock({ community }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -11,6 +11,12 @@ export default function CommunityBlock({ community }) {
   const { mutate } = useRequestProcessor();
   const setCommunities = useCommunities((state) => state.setCommunities);
   const communities = useCommunities((state) => state.communities);
+  let navigate = useNavigate();
+
+  const routeChange = () => {
+    let path = `/community/${community.id}`;
+    navigate(path);
+  };
 
   const updateCommunityMutation = mutate(
     ["updateCommunity"],
@@ -169,7 +175,7 @@ export default function CommunityBlock({ community }) {
             {descriptionInput} {moreOptionsIcon}
           </div>
         ) : (
-          community.description
+          <div onClick={() => routeChange()}>{community.description}</div>
         )}
         {moreOption ? deleteButton : null}
         {isEditing ? (
@@ -181,7 +187,7 @@ export default function CommunityBlock({ community }) {
           editIcon
         )}
       </div>
-      <GroupContacts description={community.description} />
+      <GroupContacts community={community} isEditing={isEditing} />
     </div>
   );
 }
