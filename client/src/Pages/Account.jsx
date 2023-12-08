@@ -31,17 +31,17 @@ export default function Account() {
     }
   );
 
-  // const userDetails = (
-  //   <>
-  //     <div className="font-bold mb-5">
-  //       {user.first_name} {user.last_name}
-  //     </div>
-  //     <div>{user.phone_number}</div>
-  //     <div className="mb-5">{user.email}</div>
-  //     <div>Contacts: {user.contacts.length}</div>
-  //     <div>Communities: {user.tags.length}</div>
-  //   </>
-  // );
+  const userDetails = (
+    <>
+      <div className="font-bold mb-5">
+        {user.first_name} {user.last_name}
+      </div>
+      <div>{user.phone_number}</div>
+      <div className="mb-5">{user.email}</div>
+      <div>Contacts: {user.contacts.length}</div>
+      <div>Communities: {user.tags.length}</div>
+    </>
+  );
 
   const logOutButton = (
     <button
@@ -54,7 +54,7 @@ export default function Account() {
 
   return (
     <div>
-      {/* {userDetails} */}
+      {userDetails}
       {logOutButton}
     </div>
   );

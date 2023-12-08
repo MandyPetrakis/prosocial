@@ -2,13 +2,10 @@ import { useState, useEffect } from "react";
 import { useContacts } from "../Store/contactsStore";
 import ContactDetails from "../Components/ContactDetails";
 import NewContactForm from "../Components/NewContactForm";
-import { useUser } from "../Store/userStore";
 
 export default function Contacts() {
   const [currentContact, setCurrentContact] = useState();
-  const user = useUser((state) => state.user);
-  const setContacts = useContacts((state) => state.setContacts);
-  const contacts = user.contacts;
+  const contacts = useContacts((state) => state.contacts);
 
   const [modal, setModal] = useState();
 

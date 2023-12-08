@@ -6,7 +6,7 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
   const { mutate } = useRequestProcessor();
   const contacts = useContacts((state) => state.contacts);
   const setContacts = useContacts((state) => state.setContacts);
-  const [errors, setErrors] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const [contactInputs, setContactInputs] = useState({
     first_name: "",
@@ -32,7 +32,7 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
     const { name, value } = e.target;
 
     if (name === "first_name" || name === "last_name") {
-      setErrors(false);
+      setErrors([]);
     }
 
     setContactInputs({
@@ -63,7 +63,9 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
         body: JSON.stringify(newContact),
       });
       if (!response.ok) {
-        setErrors("Please enter first or last name.");
+        response.json().then((data) => {
+          setErrors(data.errors);
+        });
         throw new Error("Unauthorized");
       }
       return response.json();
@@ -92,7 +94,7 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
             placeholder="First"
             name="first_name"
             className={`${styles.inputStyle} ${
-              errors ? "placeholder-alert" : null
+              errors.length !== 0 ? "placeholder-alert" : null
             } sm:w-48 sm:mr-3`}
             value={first_name}
             onChange={updateContactInputs}
@@ -107,7 +109,7 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
             placeholder="Last"
             name="last_name"
             className={`${styles.inputStyle} ${
-              errors ? "placeholder-alert" : null
+              errors.length !== 0 ? "placeholder-alert" : null
             } sm:w-48 sm:mr-3`}
             value={last_name}
             onChange={updateContactInputs}
@@ -217,7 +219,13 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
           Email
         </label>
       </div>
-      {errors ? <div className="text-red-800">*{errors}</div> : null}
+      {errors.length !== 0 ? (
+        <div className="text-red-800">
+          {errors.map((e, index) => (
+            <div key={index}>{e}</div>
+          ))}
+        </div>
+      ) : null}
       <button
         onClick={(e) => handleSubmit(e)}
         className="cursor-pointer rounded-md shadow-md bg-purple text-white px-2 py-1 whitespace-nowrap w-full text-center font-semibold hover:shadow-lg hover:bg-gradient-to-r from-purple to-teal"

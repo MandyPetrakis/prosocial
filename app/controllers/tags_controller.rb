@@ -25,7 +25,9 @@ class TagsController < ApplicationController
     def destroy 
         tag = Tag.find(params[:id])
         tag.destroy
-        head :no_content
+        user = User.find(session[:user_id])
+        tags = user.user_tags
+        render json: tags
     end
     
     private 

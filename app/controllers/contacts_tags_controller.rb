@@ -25,10 +25,9 @@ class ContactsTagsController < ApplicationController
     
     def destroy 
         contacts_tag = ContactsTag.find(params[:id])
+        community = Tag.find(contacts_tag[:tag_id])
         contacts_tag.destroy
-        user = User.find(session[:user_id])
-        contacts = user.contacts
-        render json: contacts, include: :tags
+        render json: community
     end
     
     private 

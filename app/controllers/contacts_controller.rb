@@ -1,6 +1,8 @@
 class ContactsController < ApplicationController
     before_action :authorize
+
   
+
 def index
     if session[:user_id]
         user = User.find(session[:user_id])
@@ -20,7 +22,7 @@ end
 def create 
     user = User.find(session[:user_id])
     contact = user.contacts.create!(contact_params)
-    render json: contact
+    render json: contact, status: :ok
 end
 
 def update
@@ -40,9 +42,7 @@ end
 private 
 
     def authorize
-        if params[:user_id]
-        return render json: [error: "Not Authorized"], status: :unauthorized unless session[:user_id] === params[:user_id]
-        else  
+        if params[:id]
         contact = Contact.find(params[:id])
         return render json: [error: "Not Authorized"], status: :unauthorized unless session[:user_id] === contact.user_id
         end

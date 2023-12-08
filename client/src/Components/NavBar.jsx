@@ -27,11 +27,11 @@ export default function NavBar() {
         </NavLink>
         <div className="bg-purple h-10 w-10 p-2 rounded-full font-semibold text-center">
           <NavLink to="/account">
-            {/* {user !== "" ? (
+            {user !== "" ? (
               <div>
                 {user.first_name.charAt(0)} {user.last_name.charAt(0)}{" "}
               </div>
-            ) : null} */}
+            ) : null}
           </NavLink>
         </div>
       </div>

@@ -56,7 +56,7 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
     <div className="m-2.5 w-31/5 fixed left-260 md:left-290 top-100">
       <div className={styles.names}>
         {currentContact.first_name === "" ? (
-          <div onClick={setIsEditing(true)} className={styles.add}>
+          <div onClick={() => setIsEditing(true)} className={styles.add}>
             + First
           </div>
         ) : (
@@ -67,7 +67,9 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
         )}
 
         {currentContact.last_name === "" ? (
-          <div className={styles.add}>+ Last</div>
+          <div onClick={() => setIsEditing(true)} className={styles.add}>
+            + Last
+          </div>
         ) : (
           <div>
             {currentContact.last_name.charAt(0).toUpperCase() +
@@ -78,7 +80,9 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
 
       <div className={styles.work}>
         {currentContact.occupation === "" ? (
-          <div className={styles.add}>+ Job</div>
+          <div onClick={() => setIsEditing(true)} className={styles.add}>
+            + Job
+          </div>
         ) : (
           <div className="mr-1">{currentContact.occupation}</div>
         )}
@@ -87,7 +91,9 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
           ? null
           : " @ "}
         {currentContact.company === "" ? (
-          <div className={styles.add}>+ Company</div>
+          <div onClick={() => setIsEditing(true)} className={styles.add}>
+            + Company
+          </div>
         ) : (
           <div className="ml-1">{currentContact.company}</div>
         )}
@@ -95,23 +101,21 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
 
       <div className={styles.relationship}>
         {currentContact.relationship === "" ? (
-          <div className={styles.add}>+ Relationship</div>
+          <div onClick={() => setIsEditing(true)} className={styles.add}>
+            + Relationship
+          </div>
         ) : (
           <div>{currentContact.relationship.toLowerCase()}</div>
         )}
       </div>
 
-      <div className={styles.tags}>
-        {contactTags.length !== 0 ? (
-          <>{contactTags}</>
-        ) : (
-          <div className={styles.add}>+ Tags</div>
-        )}
-      </div>
+      <div className={styles.tags}>{contactTags}</div>
 
       <div className={styles.phone_numbers}>
         {currentContact.phone_number === "" ? (
-          <div className={styles.add}>+ Phone Numbers</div>
+          <div onClick={() => setIsEditing(true)} className={styles.add}>
+            + Phone Numbers
+          </div>
         ) : (
           <div>{currentContact.phone_number}</div>
         )}
@@ -119,7 +123,9 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
 
       <div className={styles.emails}>
         {currentContact.email === "" ? (
-          <div className={styles.add}>+ Email</div>
+          <div onClick={() => setIsEditing(true)} className={styles.add}>
+            + Email
+          </div>
         ) : (
           <div className="ml-1">{currentContact.email}</div>
         )}
