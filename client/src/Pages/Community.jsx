@@ -177,7 +177,7 @@ export default function Community() {
       <input
         type="text"
         value={description}
-        className="bg-transparent font-bold outline-1 px-2 py-1 font-bold text-3xl mb-3"
+        className="bg-transparent font-bold outline-1 px-2 py-1  text-3xl mb-3"
         onChange={(e) => setDescription(e.target.value)}
       />
     </form>
