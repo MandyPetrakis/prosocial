@@ -1,43 +1,56 @@
 import { useState } from "react";
 import { useUser } from "../Store/userStore";
 import { useContacts } from "../Store/contactsStore";
-
 import { useRequestProcessor } from "../requestProcessor";
+import { useNavigate } from "react-router-dom";
 
 export default function LogIn({ setIsReturningUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState();
+  const [errors, setErrors] = useState([]);
   const { mutate } = useRequestProcessor();
   const setUser = useUser((state) => state.setUser);
-  const setContacts = useContacts((state) => state.setContacts);
+  let navigate = useNavigate();
 
-  const currentUserMutation = mutate(["currentUser"], () => {
-    const user = { email: email, password: password };
+  const routeChange = () => {
+    let path = `/contacts`;
+    navigate(path);
+  };
 
-    const response = fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+  const currentUserMutation = mutate(
+    ["currentUser"],
+    async () => {
+      const user = { email: email, password: password };
+
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (!response.ok) {
+        response.json().then((data) => {
+          setErrors(data.errors);
+        });
+        throw new Error("Unauthorized");
+      }
+      return response.json();
+    },
+    {
+      onSuccess: (data) => {
+        setEmail("");
+        setPassword("");
+        setUser(data);
       },
-      body: JSON.stringify(user),
-    });
-
-    if (!response.ok) {
-      setErrors("Invalid email or password");
-      throw new Error("Unauthorized");
     }
-    return response.json();
-  });
+  );
 
   function handleLogIn(e) {
     e.preventDefault();
     currentUserMutation.mutate();
-    if (currentUserMutation.isSuccess) {
-      setEmail("");
-      setPassword("");
-      setUser(currentUserMutation.data);
-    }
+    routeChange();
   }
 
   const header = (
@@ -78,7 +91,13 @@ export default function LogIn({ setIsReturningUser }) {
           Password
         </label>
       </div>
-      {errors ? <div className="text-red-500">*{errors}</div> : null}
+      {errors.length !== 0 ? (
+        <div className="text-red-500">
+          {errors.map((e) => (
+            <div>{e}</div>
+          ))}
+        </div>
+      ) : null}
 
       <div
         className="cursor-pointer rounded-md mt-4 shadow-md bg-darkBlue text-white px-2 py-1 w-1/3 text-center font-semibold hover:shadow-lg hover:bg-gradient-to-r from-purple to-darkBlue"

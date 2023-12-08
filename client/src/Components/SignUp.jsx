@@ -10,30 +10,46 @@ export default function SignUp({ setIsReturningUser }) {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const setUser = useUser((state) => state.setUser);
   const { mutate } = useRequestProcessor();
-  const [errors, setErrors] = useState();
+  const [errors, setErrors] = useState([]);
 
-  const signUpMutation = mutate(["currentUser"], async () => {
-    const user = {
-      email: email,
-      password: password,
-      password_confirmation: passwordConfirmation,
-      first_name: firstName,
-      last_name: lastName,
-    };
+  const signUpMutation = mutate(
+    ["currentUser"],
+    async () => {
+      const user = {
+        email: email,
+        password: password,
+        password_confirmation: passwordConfirmation,
+        first_name: firstName,
+        last_name: lastName,
+      };
 
-    const response = await fetch("/api/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      if (!response.ok) {
+        response.json().then((data) => {
+          console.log(data.errors);
+          setErrors(data.errors);
+        });
+        throw new Error("Unauthorized");
+      }
+      return response.json();
+    },
+    {
+      onSuccess: (data) => {
+        setUser(data);
+        setEmail("");
+        setPassword("");
+        setPasswordConfirmation("");
+        setLastName("");
+        setFirstName("");
       },
-      body: JSON.stringify(user),
-    });
-    if (!response.ok) {
-      setErrors("All fields required");
-      throw new Error("Unauthorized");
     }
-    return response.json();
-  });
+  );
   const header = (
     <h2 className="text-lg font-medium mb-5">
       Join our community today and start connecting.
@@ -113,7 +129,13 @@ export default function SignUp({ setIsReturningUser }) {
           Confirm Password
         </label>
       </div>
-      {errors ? <div className="text-red-500">*{errors}</div> : null}
+      {errors.length !== 0 ? (
+        <div className="text-red-500 text-sm">
+          {errors.map((e) => (
+            <div>{e}</div>
+          ))}
+        </div>
+      ) : null}
       <div
         className="cursor-pointer rounded-md mt-4 shadow-md bg-darkBlue text-white px-2 py-1 w-1/3 text-center font-semibold hover:shadow-lg hover:bg-gradient-to-r from-purple to-darkBlue"
         onClick={handleSignUp}
@@ -125,15 +147,8 @@ export default function SignUp({ setIsReturningUser }) {
 
   function handleSignUp(e) {
     e.preventDefault();
+
     signUpMutation.mutate();
-    if (signUpMutation.isSuccess) {
-      setUser(signUpMutation.data);
-      setEmail("");
-      setPassword("");
-      setPasswordConfirmation("");
-      setLastName("");
-      setFirstName("");
-    }
   }
 
   const logInInstead = (

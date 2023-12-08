@@ -80,6 +80,7 @@ export default function Contacts() {
           <ContactDetails
             toggleModal={toggleModal}
             currentContact={currentContact}
+            setCurrentContact={setCurrentContact}
           />
         ) : null}
       </div>

@@ -73,6 +73,7 @@ export default function UpdateContactForm({
           if (c.id === data.id) return data;
           else return c;
         });
+
         {
           setCurrentContact ? setCurrentContact(data) : null;
         }
@@ -217,6 +218,12 @@ export default function UpdateContactForm({
           type="submit"
         >
           Save
+        </button>
+        <button
+          onClick={() => setIsEditing(false)}
+          className="cursor-pointer mb-5 rounded-md shadow-md bg-purple text-white px-2 py-1 whitespace-nowrap w-full text-center font-semibold hover:shadow-lg hover:bg-gradient-to-r from-purple to-teal"
+        >
+          Cancel
         </button>
 
         <div

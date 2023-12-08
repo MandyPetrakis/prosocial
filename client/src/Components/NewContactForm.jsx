@@ -6,7 +6,6 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
   const { mutate } = useRequestProcessor();
   const contacts = useContacts((state) => state.contacts);
   const setContacts = useContacts((state) => state.setContacts);
-  const socialTypes = ["Facebook", "LinkedIn", "Instagram", "X"];
   const [errors, setErrors] = useState(false);
 
   const [contactInputs, setContactInputs] = useState({
@@ -16,6 +15,7 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
     relationship: "",
     occupation: "",
     company: "",
+    phone_numer: "",
   });
 
   const {
@@ -31,7 +31,7 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
   const updateContactInputs = (e) => {
     const { name, value } = e.target;
 
-    if (name === "first_name" || name === last_name) {
+    if (name === "first_name" || name === "last_name") {
       setErrors(false);
     }
 
@@ -40,23 +40,6 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
       [name]: value,
     });
   };
-
-  // const [tagInputs, setTagInputs] = useState([
-  //   {
-  //     description: "",
-  //   },
-  // ]);
-
-  // const handleTagInputs = (index, event) => {
-  //   let data = [...tagInputs];
-  //   data[index][event.target.name] = event.target.value;
-  //   setTagInputs(data);
-  // };
-
-  // const addTagFields = () => {
-  //   let newField = { description: "" };
-  //   setTagInputs([...tagInputs, newField]);
-  // };
 
   const styles = {
     fieldStyle: "relative pt-5 mb-2 ",
@@ -234,7 +217,7 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
           Email
         </label>
       </div>
-
+      {errors ? <div className="text-red-800">*{errors}</div> : null}
       <button
         onClick={(e) => handleSubmit(e)}
         className="cursor-pointer rounded-md shadow-md bg-purple text-white px-2 py-1 whitespace-nowrap w-full text-center font-semibold hover:shadow-lg hover:bg-gradient-to-r from-purple to-teal"

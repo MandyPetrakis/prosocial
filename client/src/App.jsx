@@ -9,6 +9,7 @@ import { useContacts } from "./Store/contactsStore";
 function App() {
   const { query } = useRequestProcessor();
   const setUser = useUser((state) => state.setUser);
+  const user = useUser((state) => state.user);
   const setContacts = useContacts((state) => state.setContacts);
   const setCommunities = useCommunities((state) => state.setCommunities);
 
@@ -22,16 +23,16 @@ function App() {
       return response.json();
     },
     {
+      retry: false,
       onSuccess: (data) => {
         setUser(data);
         setCommunities(data.tags);
         setContacts(data.contacts);
       },
-    },
-    { retry: false }
+    }
   );
 
-  if (!currentUserQuery.isSuccess) {
+  if (!currentUserQuery.isSuccess || user === "") {
     return (
       <div className="font-quicksand p-10 bg-background min-h-screen text-blue-900">
         <Authentication />

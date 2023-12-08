@@ -35,6 +35,12 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
     </div>
   );
 
+  const cancelButton = (
+    <div className="rounded bg-purple px-2 text-white font-semibold m-auto w-14 text-center cursor-pointer">
+      Cancel
+    </div>
+  );
+
   const styles = {
     names: "flex font-bold text-3xl mb-5",
     add: "text-lightBlue opacity-50 mr-3 font-semilbold cursor-pointer hover:opacity-100 hover:text-purple",
@@ -50,7 +56,9 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
     <div className="m-2.5 w-31/5 fixed left-260 md:left-290 top-100">
       <div className={styles.names}>
         {currentContact.first_name === "" ? (
-          <div className={styles.add}>+ First</div>
+          <div onClick={setIsEditing(true)} className={styles.add}>
+            + First
+          </div>
         ) : (
           <div className="mr-1">
             {currentContact.first_name.charAt(0).toUpperCase() +
@@ -117,7 +125,7 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
         )}
       </div>
 
-      {isEditing ? <div>{saveButton}</div> : editButton}
+      {editButton}
     </div>
   );
 
