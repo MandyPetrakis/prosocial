@@ -2,13 +2,14 @@ import { NavLink } from "react-router-dom";
 import { useUser } from "../Store/userStore";
 
 export default function NavBar() {
-  const activeStyle = "underline underline-offset-2";
-  const inactiveStyle = "hover:text-purple";
+  const activeStyle =
+    "underline text-purple underline-offset-2 font-bold text-lg";
+  const inactiveStyle = "hover:text-purple font-semibold text-lg";
   const user = useUser((state) => state.user);
 
   return (
     <div className="mx-20 mb-10 ">
-      <div className="flex justify-between w-full ">
+      <div className="flex justify-evenly  w-full ">
         <NavLink
           className={(navData) =>
             navData.isActive ? activeStyle : inactiveStyle
@@ -29,7 +30,8 @@ export default function NavBar() {
           <NavLink to="/account">
             {user !== "" ? (
               <div>
-                {user.first_name.charAt(0)} {user.last_name.charAt(0)}{" "}
+                {user.first_name.charAt(0)}
+                {user.last_name.charAt(0)}
               </div>
             ) : null}
           </NavLink>

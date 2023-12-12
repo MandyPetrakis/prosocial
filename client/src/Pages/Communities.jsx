@@ -1,8 +1,15 @@
+import { useState } from "react";
 import { useCommunities } from "../Store/communityStore";
 import { useNavigate } from "react-router-dom";
+import { useRequestProcessor } from "../requestProcessor";
 
 export default function Communities() {
   const communities = useCommunities((state) => state.communities);
+  const setCommunities = useCommunities((state) => state.setCommunities);
+  const [community, setCommmunity] = useState("");
+  const [errors, setErrors] = useState("");
+  const { mutate } = useRequestProcessor();
+
   let navigate = useNavigate();
 
   const contactRouteChange = (c) => {
@@ -10,9 +17,63 @@ export default function Communities() {
     navigate(path);
   };
 
+  const addCommunityMutation = mutate(
+    ["community"],
+    async () => {
+      const newCommunity = {
+        description: community,
+      };
+      const response = await fetch("/api/tags", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newCommunity),
+      });
+      if (!response.ok) {
+        response.json().then((data) => {
+          console.log(data.errors);
+          setErrors(data.errors);
+        });
+        throw new Error("Unauthorized");
+      }
+      return response.json();
+    },
+    {
+      onSuccess: (data) => {
+        setCommunities(data);
+      },
+    }
+  );
+
+  function handleAddCommunity(e) {
+    e.preventDefault();
+    addCommunityMutation.mutate();
+  }
+
+  const addCommunity = (
+    <form className="mb-5" onSubmit={(e) => handleAddCommunity(e)}>
+      <label className="block">Add Community</label>
+      <input
+        value={community}
+        onChange={(e) => setCommmunity(e.target.value)}
+        className="mr-5 rounded-md p-1"
+        type="text"
+      />
+      <button
+        onClick={(e) => handleAddCommunity(e)}
+        className="text-2xl font-bold"
+        type="submit"
+      >
+        +
+      </button>
+    </form>
+  );
+
   const communityRender = communities.map((c) => {
     return (
       <div
+        key={c.id}
         onClick={() => contactRouteChange(c)}
         className="font-bold text-3xl mb-5 cursor-pointer group flex justify-between"
       >
@@ -35,5 +96,10 @@ export default function Communities() {
     );
   });
 
-  return <div>{communityRender}</div>;
+  return (
+    <div>
+      {addCommunity}
+      {communityRender}
+    </div>
+  );
 }

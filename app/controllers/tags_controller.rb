@@ -1,6 +1,7 @@
 class TagsController < ApplicationController
     before_action :authorize
 
+
     def index
         tags = Tag.all
         render json: tags
@@ -12,8 +13,9 @@ class TagsController < ApplicationController
     end
     
     def create 
-        tag = Tag.create!(tag_params)
-        render json: tag, status: :created
+        user = User.find(session[:user_id])
+        tag = user.tags.create!(tag_params)
+        render json: user.tags, status: :created
     end
     
     def update
@@ -34,9 +36,7 @@ class TagsController < ApplicationController
     
 
     def authorize
-        if params[:user_id]
-        return render json: [error: "Not Authorized"], status: :unauthorized unless session[:user_id] === params[:user_id]
-        else  
+        if params[:id]
         tag = Tag.find(params[:id])
         return render json: [error: "Not Authorized"], status: :unauthorized unless session[:user_id] === tag.user_id
         end

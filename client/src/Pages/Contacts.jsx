@@ -39,6 +39,18 @@ export default function Contacts() {
     );
   };
 
+  if (contacts.length === 0)
+    return (
+      <div>
+        <span className="text-xl font-bold ml-13 mb-5 block">
+          Nothing to see here!
+        </span>
+        Click the + below to start adding contacts.
+        {modal ? modalRender() : null}
+        {addContactButton}
+      </div>
+    );
+
   return (
     <div className="relative">
       <div className="relative">

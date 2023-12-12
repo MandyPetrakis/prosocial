@@ -13,6 +13,7 @@ export default {
       158: "158px",
       260: "260px",
       290: "290px",
+      400: "400px",
     },
     extend: {
       fontFamily: {

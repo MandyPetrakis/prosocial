@@ -112,7 +112,7 @@ export default function UpdateContactForm({
 
   return (
     <div
-      className="m-2.5 w-31/5 fixed left-260 md:left-290 top-100 overflow-scroll
+      className="m-2.5 w-31/5 fixed left-260 md:left-290 lg:left-400 top-100 overflow-scroll
     "
     >
       <form onSubmit={(e) => handleSubmit(e)}>

@@ -177,7 +177,7 @@ export default function Community() {
       <input
         type="text"
         value={description}
-        className="bg-transparent font-bold outline-1 px-2 py-1  text-3xl mb-3"
+        className="bg-transparent font-bold outline-1 px-2 py-1 text-3xl mb-3"
         onChange={(e) => setDescription(e.target.value)}
       />
     </form>
@@ -240,7 +240,10 @@ export default function Community() {
       ({ contact_id, tag_id }) => contact_id === c.id && tag_id === community.id
     );
     return (
-      <div className="border-2 px-2 group py-1 rounded-md border-darkBlue mr-1 mb-1 whitespace-nowrap cursor-pointer flex justify-between">
+      <div
+        key={c.id}
+        className="border-2 px-2 group py-1 rounded-md border-darkBlue mr-1 mb-1 whitespace-nowrap cursor-pointer flex justify-between"
+      >
         <div
           className="w-full"
           onClick={() => contactRouteChange(c)}

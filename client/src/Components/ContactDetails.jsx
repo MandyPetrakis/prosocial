@@ -53,7 +53,7 @@ export default function ContactDetails({ currentContact, setCurrentContact }) {
   };
 
   const detailRender = (
-    <div className="m-2.5 w-31/5 fixed left-260 md:left-290 top-100">
+    <div className="m-2.5 w-31/5 fixed left-260 md:left-290 lg:left-400 top-100">
       <div className={styles.names}>
         {currentContact.first_name === "" ? (
           <div onClick={() => setIsEditing(true)} className={styles.add}>
