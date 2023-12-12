@@ -335,7 +335,7 @@ export default function Community() {
   );
 
   return (
-    <div>
+    <div className="max-w-xl m-auto">
       {communityDetails}
       {communityMembers}
       {addMember}
