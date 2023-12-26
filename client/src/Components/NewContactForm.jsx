@@ -15,7 +15,7 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
     relationship: "",
     occupation: "",
     company: "",
-    phone_numer: "",
+    phone_number: "",
   });
 
   const {
@@ -72,6 +72,7 @@ export default function NewContactForm({ toggleModal, setCurrentContact }) {
     },
     {
       onSuccess: (data) => {
+        console.log(data);
         const updatedContacts = [...contacts, data];
         setCurrentContact(data);
         setContacts(updatedContacts);

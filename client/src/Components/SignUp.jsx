@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useUser } from "../Store/userStore";
 import { useRequestProcessor } from "../requestProcessor";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp({ setIsReturningUser }) {
   const [firstName, setFirstName] = useState("");
@@ -11,6 +12,12 @@ export default function SignUp({ setIsReturningUser }) {
   const setUser = useUser((state) => state.setUser);
   const { mutate } = useRequestProcessor();
   const [errors, setErrors] = useState([]);
+  let navigate = useNavigate();
+
+  const routeChange = () => {
+    let path = `/contacts`;
+    navigate(path);
+  };
 
   const signUpMutation = mutate(
     ["currentUser"],
@@ -47,6 +54,7 @@ export default function SignUp({ setIsReturningUser }) {
         setPasswordConfirmation("");
         setLastName("");
         setFirstName("");
+        routeChange();
       },
     }
   );

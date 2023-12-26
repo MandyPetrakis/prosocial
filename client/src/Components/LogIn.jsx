@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useUser } from "../Store/userStore";
-import { useContacts } from "../Store/contactsStore";
 import { useRequestProcessor } from "../requestProcessor";
 import { useNavigate } from "react-router-dom";
 

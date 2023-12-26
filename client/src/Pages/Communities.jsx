@@ -42,6 +42,7 @@ export default function Communities() {
     {
       onSuccess: (data) => {
         setCommunities(data);
+        setCommmunity("");
       },
     }
   );
@@ -52,7 +53,7 @@ export default function Communities() {
   }
 
   const addCommunity = (
-    <form className="mb-5" onSubmit={(e) => handleAddCommunity(e)}>
+    <form className="" onSubmit={(e) => handleAddCommunity(e)}>
       <label className="block">Add Community</label>
       <input
         value={community}
@@ -99,6 +100,7 @@ export default function Communities() {
   return (
     <div>
       {addCommunity}
+      {errors ? <div className="text-red-500 mb-5">*{errors}</div> : null}
       {communityRender}
     </div>
   );

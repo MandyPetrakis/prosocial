@@ -13,8 +13,7 @@ class ContactsTagsController < ApplicationController
     
     def create 
         contacts_tag = ContactsTag.create!(contacts_tag_params)
-        tag = Tag.find(contacts_tag[:tag_id])
-        render json: tag, status: :created
+        render json: contacts_tag, status: :created
     end
     
     def update

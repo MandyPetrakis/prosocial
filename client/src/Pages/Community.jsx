@@ -3,6 +3,7 @@ import { useUser } from "../Store/userStore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCommunities } from "../Store/communityStore";
+import { useContacts } from "../Store/contactsStore";
 import { useRequestProcessor } from "../requestProcessor";
 
 export const communityLoader = async ({ params }) => {
@@ -16,8 +17,13 @@ export const communityLoader = async ({ params }) => {
 export default function Community() {
   const data = useLoaderData();
   const [community, setCommunity] = useState(data);
+  const [communityContacts, setCommunityContacts] = useState(
+    community.contacts
+  );
+  const contacts = useContacts((state) => state.contacts);
   const [description, setDescription] = useState(community.description);
   const contactsTags = useUser((state) => state.user.contacts_tags);
+  const [communityCTS, setCommunityCTS] = useState(contactsTags);
   const user = useUser((state) => state.user);
   const [addedContact, setAddedContact] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -81,7 +87,6 @@ export default function Community() {
     },
     {
       onSuccess: (data) => {
-        console.log(data);
         communityRouteChange();
         setCommunities(data);
       },
@@ -226,7 +231,7 @@ export default function Community() {
     },
     {
       onSuccess: (data) => {
-        setCommunity(data);
+        setCommunityContacts(data.contacts);
       },
     }
   );
@@ -235,8 +240,8 @@ export default function Community() {
     deleteContactTagMutation.mutate(c);
   }
 
-  const communityMembers = community.contacts.map((c) => {
-    const contactTag = contactsTags.find(
+  const communityMembers = communityContacts.map((c) => {
+    const contactTag = communityCTS.find(
       ({ contact_id, tag_id }) => contact_id === c.id && tag_id === community.id
     );
     return (
@@ -273,8 +278,8 @@ export default function Community() {
     );
   });
 
-  const nonMemebers = user.contacts.filter((c) => {
-    return !community.contacts.some((cc) => {
+  const nonMemebers = contacts.filter((c) => {
+    return !communityContacts.some((cc) => {
       return cc.id === c.id;
     });
   });
@@ -302,7 +307,11 @@ export default function Community() {
     },
     {
       onSuccess: (data) => {
-        setCommunity(data);
+        const updatedContactTags = [...communityCTS, data];
+        setCommunityCTS(updatedContactTags);
+        const addedContact = contacts.find((c) => c.id === data.contact_id);
+        const updatedContacts = [...communityContacts, addedContact];
+        setCommunityContacts(updatedContacts);
       },
     }
   );
