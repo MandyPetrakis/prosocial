@@ -8,6 +8,7 @@ export default function Communities() {
   const setCommunities = useCommunities((state) => state.setCommunities);
   const [community, setCommmunity] = useState("");
   const [errors, setErrors] = useState("");
+  const [added, setAdded] = useState(false);
   const { mutate } = useRequestProcessor();
 
   let navigate = useNavigate();
@@ -43,6 +44,7 @@ export default function Communities() {
       onSuccess: (data) => {
         setCommunities(data);
         setCommmunity("");
+        setAdded(true);
       },
     }
   );
@@ -101,6 +103,11 @@ export default function Communities() {
     <div>
       {addCommunity}
       {errors ? <div className="text-red-500 mb-5">*{errors}</div> : null}
+      {added ? (
+        <div className="text-gray-400 mb-5">
+          Community created successfully.
+        </div>
+      ) : null}
       {communityRender}
     </div>
   );
