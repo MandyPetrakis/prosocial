@@ -194,30 +194,6 @@ export default function Community() {
     </button>
   );
 
-  const communityDetails = (
-    <>
-      <div className="group flex justify-between">
-        {isEditing ? (
-          <div className="flex">
-            {descriptionInput} {moreOptionsIcon}
-          </div>
-        ) : (
-          <div className="font-bold text-3xl mb-3">{community.description}</div>
-        )}
-        {moreOption ? deleteButton : null}
-        {isEditing ? (
-          <div className="flex">
-            {saveIcon}
-            {cancelIcon}
-          </div>
-        ) : (
-          editIcon
-        )}
-      </div>
-      <span className="block">Community size: {community.contacts.length}</span>
-    </>
-  );
-
   const deleteContactTagMutation = mutate(
     ["contactTag"],
     async (contactTag) => {
@@ -340,6 +316,30 @@ export default function Community() {
       <button className="font-bold text-2xl" onClick={handleAdd}>
         +
       </button>
+    </>
+  );
+
+  const communityDetails = (
+    <>
+      <div className="group flex justify-between">
+        {isEditing ? (
+          <div className="flex">
+            {descriptionInput} {moreOptionsIcon}
+          </div>
+        ) : (
+          <div className="font-bold text-3xl mb-3">{community.description}</div>
+        )}
+        {moreOption ? deleteButton : null}
+        {isEditing ? (
+          <div className="flex">
+            {saveIcon}
+            {cancelIcon}
+          </div>
+        ) : (
+          editIcon
+        )}
+      </div>
+      <span className="block">Community size: {communityMembers.length}</span>
     </>
   );
 

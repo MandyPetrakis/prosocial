@@ -6,11 +6,15 @@ import NewContactForm from "../Components/NewContactForm";
 export default function Contacts() {
   const [currentContact, setCurrentContact] = useState();
   const contacts = useContacts((state) => state.contacts);
-
   const [modal, setModal] = useState();
 
   function toggleModal() {
     setModal(!modal);
+  }
+
+  function toggleContactDetails(c) {
+    if (currentContact && currentContact === c) setCurrentContact(null);
+    else setCurrentContact(c);
   }
 
   const addContactButton = (
@@ -69,7 +73,9 @@ export default function Contacts() {
               return (
                 <div
                   key={c.id}
-                  onClick={() => setCurrentContact(c)}
+                  onClick={() => {
+                    toggleContactDetails(c);
+                  }}
                   className={` ${
                     currentContact === c
                       ? "font-semibold bg-purple text-grey"

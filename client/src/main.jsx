@@ -1,5 +1,8 @@
 import React from "react";
 import App from "./App.jsx";
+import LandingPage from "./Pages/LandingPage.jsx";
+import Authentication from "./Pages/Authentication";
+
 import Contacts from "./Pages/Contacts.jsx";
 import Account from "./Pages/Account.jsx";
 import Communities from "./Pages/Communities.jsx";
